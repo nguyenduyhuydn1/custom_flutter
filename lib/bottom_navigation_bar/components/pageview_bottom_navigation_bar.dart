@@ -14,6 +14,12 @@ class _PageViewBottomNavigationBarState
   int currentIndex = 0;
   final PageController _pageController = PageController(initialPage: 0);
 
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   final List<Widget> _pages = const [
     // ProductView(),
     // CategoryView(),
@@ -84,6 +90,26 @@ class _NavigationBottomBar extends StatelessWidget {
               .map(
                 (i, e) => MapEntry(
                   i,
+
+                  //     Material(
+                  //   color: Colors.transparent,
+                  //   borderRadius: BorderRadius.circular(50),
+                  //   child: InkWell(
+                  //     onTap: () => onpressed(i),
+                  //     borderRadius: BorderRadius.circular(50),
+                  //     child: Container(
+                  //       padding: const EdgeInsets.all(15),
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.circular(30),
+                  //       ),
+                  //       child: Icon(
+                  //         e,
+                  //         color: Colors.white60,
+                  //         size: 30,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   IconButton(
                     onPressed: () => onpressed(i),
                     icon: Icon(
