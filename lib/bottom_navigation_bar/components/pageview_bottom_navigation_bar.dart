@@ -12,7 +12,12 @@ class PageViewBottomNavigationBar extends StatefulWidget {
 class _PageViewBottomNavigationBarState
     extends State<PageViewBottomNavigationBar> {
   int currentIndex = 0;
-  final PageController _pageController = PageController(initialPage: 0);
+  late PageController _pageController;
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(keepPage: true);
+  }
 
   @override
   void dispose() {
@@ -21,28 +26,33 @@ class _PageViewBottomNavigationBarState
   }
 
   final List<Widget> _pages = const [
-    // ProductView(),
-    // CategoryView(),
-    // CartView(),
     Text("data"),
-    Text("data"),
-    Text("data"),
-    Text("data"),
+    Text("xx"),
+    Text("xccc"),
+    Text("aasd"),
   ];
 
   @override
   Widget build(BuildContext context) {
+    if (_pageController.hasClients) {
+      _pageController.animateToPage(
+        currentIndex,
+        curve: Curves.easeInOut,
+        duration: const Duration(milliseconds: 250),
+      );
+    }
     return Scaffold(
       body: SafeArea(
         child: Stack(
           children: [
             PageView.builder(
+              physics: const NeverScrollableScrollPhysics(),
               controller: _pageController,
-              onPageChanged: (value) {
-                setState(() {
-                  currentIndex = value;
-                });
-              },
+              // onPageChanged: (value) {
+              //   setState(() {
+              //     currentIndex = value;
+              //   });
+              // },
               itemCount: _pages.length,
               itemBuilder: (context, index) => _pages[index],
             ),
@@ -52,7 +62,10 @@ class _PageViewBottomNavigationBarState
               right: 20,
               child: _NavigationBottomBar(
                 onpressed: (i) {
-                  _pageController.jumpToPage(i);
+                  setState(() {
+                    currentIndex = i;
+                  });
+                  // _pageController.jumpToPage(i);
                 },
               ),
             )
@@ -72,8 +85,8 @@ class _NavigationBottomBar extends StatelessWidget {
     const List<IconData> icons = [
       Icons.home,
       Icons.category,
-      Icons.shopping_cart,
-      Icons.person,
+      Icons.favorite,
+      // Icons.person,
     ];
 
     return Container(
@@ -90,32 +103,32 @@ class _NavigationBottomBar extends StatelessWidget {
               .map(
                 (i, e) => MapEntry(
                   i,
-
-                  //     Material(
-                  //   color: Colors.transparent,
-                  //   borderRadius: BorderRadius.circular(50),
-                  //   child: InkWell(
-                  //     onTap: () => onpressed(i),
-                  //     borderRadius: BorderRadius.circular(50),
-                  //     child: Container(
-                  //       padding: const EdgeInsets.all(15),
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(30),
-                  //       ),
-                  //       child: Icon(
-                  //         e,
-                  //         color: Colors.white60,
-                  //         size: 30,
-                  //       ),
-                  //     ),
+                  // IconButton(
+                  //   onPressed: () => onpressed(i),
+                  //   icon: Icon(
+                  //     e,
+                  //     color: Colors.white60,
+                  //     size: 30,
                   //   ),
                   // ),
-                  IconButton(
-                    onPressed: () => onpressed(i),
-                    icon: Icon(
-                      e,
-                      color: Colors.white60,
-                      size: 30,
+
+                  Material(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(50),
+                    child: InkWell(
+                      onTap: () => onpressed(i),
+                      borderRadius: BorderRadius.circular(50),
+                      child: Container(
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Icon(
+                          e,
+                          color: Colors.white60,
+                          size: 30,
+                        ),
+                      ),
                     ),
                   ),
                 ),
