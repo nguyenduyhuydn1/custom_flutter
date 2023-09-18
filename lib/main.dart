@@ -133,32 +133,35 @@ class _AnimationNavbarState extends State<AnimationNavbar>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: List.generate(4, (index) {
-                    return GestureDetector(
-                      onTap: () {
-                        _controller.forward(from: 0.0);
-                        setState(() {
-                          currentIndex = index;
-                        });
-                      },
-                      child: currentIndex == index
-                          ? CustomPaint(
-                              foregroundPainter: _CirclePaint(
-                                  progress: _animationCircle.value),
-                              child: Transform.translate(
-                                offset: Offset(0.0, currentTranslate),
-                                child: const CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: Colors.transparent,
-                                  child: Icon(Icons.home, size: 30),
-                                ),
-                              ),
-                            )
-                          : const CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.transparent,
-                              child: Icon(Icons.home, size: 30),
-                            ),
-                    );
+                    if (currentIndex == index) {
+                      return CustomPaint(
+                        foregroundPainter: _CirclePaint(
+                          progress: _animationCircle.value,
+                        ),
+                        child: Transform.translate(
+                          offset: Offset(0.0, currentTranslate),
+                          child: const CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Colors.transparent,
+                            child: Icon(Icons.home, size: 30),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            currentIndex = index;
+                          });
+                          _controller.forward(from: 0.0);
+                        },
+                        child: const CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Colors.transparent,
+                          child: Icon(Icons.home, size: 30),
+                        ),
+                      );
+                    }
                   }),
                 ),
               ),
