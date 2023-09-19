@@ -1,6 +1,5 @@
+import 'package:custom_flutter/check/animation_slide/animation_slide.dart';
 import 'package:flutter/material.dart';
-
-import 'package:custom_flutter/dragg_able_scrollable_sheet/index.dart';
 
 void main() {
   runApp(const MainApp());
@@ -21,8 +20,7 @@ class MainApp extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        const CustomDraggableScrollableSheet(),
+                    builder: (context) => const AnimationSlide(),
                   ),
                 );
               },

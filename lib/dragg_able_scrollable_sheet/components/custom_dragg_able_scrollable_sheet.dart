@@ -83,9 +83,7 @@ class _CustomDraggableScrollableSheetState
             bottom: null,
             child: const Material(
               elevation: 10,
-
               color: Colors.blue,
-              // height: size.height * 0.2,
               child: Column(
                 children: [
                   Text("xxxxxxxxxxxxxxxxxxx"),
