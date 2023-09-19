@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'bottom_navigation_bar/components/multiple_animation.dart';
+import 'package:custom_flutter/dragg_able_scrollable_sheet/index.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,9 +11,26 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: MultipleAnimation()),
+      home: Scaffold(
+        body: Center(
+          child: Builder(
+            builder: (context) => FilledButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const CustomDraggableScrollableSheet(),
+                  ),
+                );
+              },
+              child: const Text("data"),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

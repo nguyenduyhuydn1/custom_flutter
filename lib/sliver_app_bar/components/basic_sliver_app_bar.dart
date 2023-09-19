@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:custom_flutter/sliver_app_bar/sliver_app_bar.dart';
+import 'package:custom_flutter/sliver_app_bar/index.dart';
 
 class BasicSliverAppBar extends StatelessWidget {
   const BasicSliverAppBar({super.key});
