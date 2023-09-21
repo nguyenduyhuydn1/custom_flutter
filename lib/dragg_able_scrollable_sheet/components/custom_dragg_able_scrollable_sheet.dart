@@ -38,7 +38,6 @@ class _CustomDraggableScrollableSheetState
             child: NotificationListener<DraggableScrollableNotification>(
               onNotification: (notification) {
                 final percent = 2 * notification.extent - 0.8;
-                print(percent);
 
                 //maxChildSize = 0.9
                 //x = 1
