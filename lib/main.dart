@@ -2,6 +2,7 @@ import 'package:custom_flutter/sliver_app_bar/index.dart';
 import 'package:flutter/material.dart';
 
 import 'bottom_navigation_bar/index.dart';
+import 'check/index.dart';
 import 'dragg_able_scrollable_sheet/index.dart';
 import 'page_transition/components/page_transition.dart';
 
@@ -39,6 +40,14 @@ class MainApp extends StatelessWidget {
     ];
 
     /////////////////////////// check
+    const listAnimation = [
+      AnimationCoffe(),
+      AnimationSlide(),
+      Card1(),
+      ShowModalBottomSheet(),
+      CustomTextFormField(),
+    ];
+
     ///
 
     return const MaterialApp(
@@ -59,6 +68,10 @@ class MainApp extends StatelessWidget {
             _DropDownButton(
               listWidgets: bottomNavigationBar,
               title: "Bottom Navigation Bar",
+            ),
+            _DropDownButton(
+              listWidgets: listAnimation,
+              title: "Check",
             ),
           ],
         ),
