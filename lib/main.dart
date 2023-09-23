@@ -1,13 +1,18 @@
-import 'package:custom_flutter/sliver_app_bar/index.dart';
+import 'package:custom_flutter/feature/index.dart';
+import 'package:custom_flutter/test.dart';
 import 'package:flutter/material.dart';
 
-import 'bottom_navigation_bar/index.dart';
-import 'check/index.dart';
-import 'dragg_able_scrollable_sheet/index.dart';
-import 'page_transition/components/page_transition.dart';
+import 'package:custom_flutter/Klerith/main.dart';
+import 'package:custom_flutter/sliver_app_bar/index.dart';
+import 'package:custom_flutter/bottom_navigation_bar/index.dart';
+import 'package:custom_flutter/dragg_able_scrollable_sheet/index.dart';
+import 'package:custom_flutter/page_transition/components/page_transition.dart';
+import 'package:custom_flutter/check/index.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const ProviderScope(child: MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -50,30 +55,73 @@ class MainApp extends StatelessWidget {
 
     ///
 
-    return const MaterialApp(
+    /////////////////////////// Klerith
+    const feature = [
+      ClickScroll(),
+      ScrollMove(),
+    ];
+
+    ///
+
+    /////////////////////////// Klerith
+    const klerith = [
+      KlerithApp(),
+    ];
+
+    ///
+
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
           body: SafeArea(
-        child: Column(
-          children: [
-            _DropDownButton(listWidgets: sliverAppBar, title: "Sliver App Bar"),
-            _DropDownButton(
-              listWidgets: pageTransition,
-              title: "Page Transition",
-            ),
-            _DropDownButton(
-              listWidgets: dragAbleScrollableSheet,
-              title: "Drag scroll sheet",
-            ),
-            _DropDownButton(
-              listWidgets: bottomNavigationBar,
-              title: "Bottom Navigation Bar",
-            ),
-            _DropDownButton(
-              listWidgets: listAnimation,
-              title: "Check",
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const _DropDownButton(
+                listWidgets: sliverAppBar,
+                title: "Sliver App Bar",
+              ),
+              const _DropDownButton(
+                listWidgets: pageTransition,
+                title: "Page Transition",
+              ),
+              const _DropDownButton(
+                listWidgets: dragAbleScrollableSheet,
+                title: "Drag scroll sheet",
+              ),
+              const _DropDownButton(
+                listWidgets: bottomNavigationBar,
+                title: "Bottom Navigation Bar",
+              ),
+              const _DropDownButton(
+                listWidgets: listAnimation,
+                title: "Check",
+              ),
+              const _DropDownButton(
+                listWidgets: klerith,
+                title: "klerith",
+              ),
+              const _DropDownButton(
+                listWidgets: feature,
+                title: "feature",
+              ),
+              Builder(
+                builder: (context) => FilledButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Test()),
+                    );
+                  },
+                  child: const Text("test page"),
+                ),
+              ),
+              const Placeholder(),
+              const Placeholder(),
+              const Placeholder(),
+              const Placeholder(),
+            ],
+          ),
         ),
       )),
     );

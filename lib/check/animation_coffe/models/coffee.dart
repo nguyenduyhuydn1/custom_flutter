@@ -35,39 +35,39 @@ final coffes = [
     coffeName: "Toffee Nut Latte",
     price: 4.00,
   ),
-  CoffeeModel(
-    imagePath: "assets/coffee/6.png",
-    coffeName: "Capuchino",
-    price: 2.50,
-  ),
-  CoffeeModel(
-    imagePath: "assets/coffee/7.png",
-    coffeName: "Toffee Nut Iced Latte",
-    price: 3.50,
-  ),
-  CoffeeModel(
-    imagePath: "assets/coffee/8.png",
-    coffeName: "Americano",
-    price: 3.00,
-  ),
-  CoffeeModel(
-    imagePath: "assets/coffee/9.png",
-    coffeName: "Vietnamese-Style Iced Coffee",
-    price: 4.50,
-  ),
-  CoffeeModel(
-    imagePath: "assets/coffee/10.png",
-    coffeName: "Black Tea Latte",
-    price: 4.00,
-  ),
-  CoffeeModel(
-    imagePath: "assets/coffee/11.png",
-    coffeName: "Classic Irish Coffee",
-    price: 2.50,
-  ),
-  CoffeeModel(
-    imagePath: "assets/coffee/12.png",
-    coffeName: "Toffee Nut Crunch Latte",
-    price: 3.50,
-  ),
+  // CoffeeModel(
+  //   imagePath: "assets/coffee/6.png",
+  //   coffeName: "Capuchino",
+  //   price: 2.50,
+  // ),
+  // CoffeeModel(
+  //   imagePath: "assets/coffee/7.png",
+  //   coffeName: "Toffee Nut Iced Latte",
+  //   price: 3.50,
+  // ),
+  // CoffeeModel(
+  //   imagePath: "assets/coffee/8.png",
+  //   coffeName: "Americano",
+  //   price: 3.00,
+  // ),
+  // CoffeeModel(
+  //   imagePath: "assets/coffee/9.png",
+  //   coffeName: "Vietnamese-Style Iced Coffee",
+  //   price: 4.50,
+  // ),
+  // CoffeeModel(
+  //   imagePath: "assets/coffee/10.png",
+  //   coffeName: "Black Tea Latte",
+  //   price: 4.00,
+  // ),
+  // CoffeeModel(
+  //   imagePath: "assets/coffee/11.png",
+  //   coffeName: "Classic Irish Coffee",
+  //   price: 2.50,
+  // ),
+  // CoffeeModel(
+  //   imagePath: "assets/coffee/12.png",
+  //   coffeName: "Toffee Nut Crunch Latte",
+  //   price: 3.50,
+  // ),
 ];
