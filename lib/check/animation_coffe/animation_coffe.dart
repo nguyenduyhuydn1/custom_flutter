@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:custom_flutter/check/animation_coffe/models/coffee.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,7 @@ class _AnimationCoffeState extends State<AnimationCoffe> {
   late PageController _titlePageController;
   double _percent = 0.0;
   int _currentIndex = 2;
+  int _numberPage = 0;
 
   @override
   void initState() {
@@ -20,11 +23,19 @@ class _AnimationCoffeState extends State<AnimationCoffe> {
     _titlePageController = PageController(initialPage: _currentIndex);
 
     _slidePageController.addListener(() {
-      _currentIndex = _slidePageController.page!.floor();
-      _percent = (_slidePageController.page! - _currentIndex).abs();
-      print(_percent);
-      _titlePageController.jumpTo(
-          _slidePageController.page! * MediaQuery.of(context).size.width);
+      _numberPage = _slidePageController.page!.floor();
+      _currentIndex = _slidePageController.page!.floor() % coffes.length;
+      _percent =
+          (_slidePageController.page! % coffes.length - _currentIndex).abs();
+
+      _titlePageController.jumpTo(_slidePageController.page! %
+          coffes.length *
+          MediaQuery.of(context).size.width);
+      // _currentIndex = _slidePageController.page!.floor();
+      // _percent = (_slidePageController.page! - _currentIndex).abs();
+
+      // _titlePageController.jumpTo(
+      //     _slidePageController.page! * MediaQuery.of(context).size.width);
       setState(() {});
     });
     super.initState();
@@ -43,7 +54,7 @@ class _AnimationCoffeState extends State<AnimationCoffe> {
               controller: _titlePageController,
               physics: const NeverScrollableScrollPhysics(),
               // physics: const BouncingScrollPhysics(),
-              itemCount: coffes.length,
+              // itemCount: coffes.length,
               itemBuilder: (context, index) {
                 final item = coffes[index % coffes.length];
                 return _Title(item: item);
@@ -59,13 +70,14 @@ class _AnimationCoffeState extends State<AnimationCoffe> {
                   currentIndex: _currentIndex,
                   percent: _percent,
                   coffes: coffes,
+                  numberPage: _numberPage,
                 ),
                 //details page
                 PageView.builder(
                   controller: _slidePageController,
                   physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.vertical,
-                  itemCount: coffes.length,
+                  // itemCount: coffes.length,
                   itemBuilder: (context, index) {
                     return Container(color: Colors.transparent);
                   },
@@ -84,50 +96,142 @@ class _Carousel extends StatelessWidget {
     required this.currentIndex,
     required this.percent,
     required this.coffes,
+    required this.numberPage,
   });
   final int currentIndex;
   final double percent;
   final List<CoffeeModel> coffes;
+  final int numberPage;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Stack(
+    return LayoutBuilder(builder: (context, constraints) {
+      final height = constraints.maxHeight;
+      if (numberPage >= coffes.length - 1) {
+        print((currentIndex - 2) % coffes.length);
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            //three
+            Transform.scale(
+              scale: lerpDouble(0.3, 0, percent),
+              alignment: Alignment.topCenter,
+              child: Opacity(
+                opacity: 1.0 - percent,
+                child:
+                    _Image(coffe: coffes[(currentIndex - 2) % coffes.length]),
+              ),
+            ),
+
+            //second
+            Transform.translate(
+              offset: Offset(0, lerpDouble(height * 0.1, 0.0, percent)!),
+              child: Transform.scale(
+                scale: lerpDouble(0.6, 0.3, percent),
+                alignment: Alignment.topCenter,
+                child:
+                    _Image(coffe: coffes[(currentIndex - 1) % coffes.length]),
+              ),
+            ),
+
+            //first
+            Transform.translate(
+              offset:
+                  Offset(0, lerpDouble(height * 0.25, height * 0.1, percent)!),
+              child: Transform.scale(
+                scale: lerpDouble(1.0, 0.6, percent),
+                alignment: Alignment.topCenter,
+                child: _Image(coffe: coffes[currentIndex % coffes.length]),
+              ),
+            ),
+
+            //hidden
+            Transform.translate(
+              offset:
+                  Offset(0, lerpDouble(height * 1.5, height * 0.25, percent)!),
+              child: Transform.scale(
+                scale: lerpDouble(2.0, 1.0, percent),
+                alignment: Alignment.topCenter,
+                child:
+                    _Image(coffe: coffes[(currentIndex + 1) % coffes.length]),
+              ),
+            ),
+          ],
+        );
+      }
+      return Stack(
+        alignment: Alignment.center,
         children: [
-          Positioned.fill(
-            top: null,
-            bottom: 500,
-            child: Transform.scale(
-              scale: 0.3,
-              child: Image.asset(
-                coffes[currentIndex].imagePath,
-                fit: BoxFit.cover,
+          //three
+          if (currentIndex > 1)
+            Transform.scale(
+              scale: lerpDouble(0.3, 0, percent),
+              alignment: Alignment.topCenter,
+              child: Opacity(
+                opacity: 1.0 - percent,
+                child:
+                    _Image(coffe: coffes[(currentIndex - 2) % coffes.length]),
               ),
             ),
-          ),
-          Positioned.fill(
-            top: null,
-            bottom: 300,
-            child: Transform.scale(
-              scale: 0.4,
-              child: Image.asset(
-                coffes[currentIndex - 1].imagePath,
-                fit: BoxFit.cover,
+
+          //second
+          if (currentIndex > 0)
+            Transform.translate(
+              offset: Offset(0, lerpDouble(height * 0.1, 0.0, percent)!),
+              child: Transform.scale(
+                scale: lerpDouble(0.6, 0.3, percent),
+                alignment: Alignment.topCenter,
+                child:
+                    _Image(coffe: coffes[(currentIndex - 1) % coffes.length]),
               ),
             ),
-          ),
-          Positioned.fill(
-            top: null,
-            bottom: -100,
+
+          //first
+          Transform.translate(
+            offset:
+                Offset(0, lerpDouble(height * 0.25, height * 0.1, percent)!),
             child: Transform.scale(
-              scale: 0.7,
-              child: Image.asset(
-                coffes[currentIndex - 2].imagePath,
-                fit: BoxFit.cover,
-              ),
+              scale: lerpDouble(1.0, 0.6, percent),
+              alignment: Alignment.topCenter,
+              child: _Image(coffe: coffes[currentIndex % coffes.length]),
             ),
           ),
+
+          //hidden
+          if (currentIndex < coffes.length - 1)
+            Transform.translate(
+              offset:
+                  Offset(0, lerpDouble(height * 1.5, height * 0.25, percent)!),
+              child: Transform.scale(
+                scale: lerpDouble(2.0, 1.0, percent),
+                alignment: Alignment.topCenter,
+                child:
+                    _Image(coffe: coffes[(currentIndex + 1) % coffes.length]),
+              ),
+            ),
         ],
+      );
+    });
+  }
+}
+
+class _Image extends StatelessWidget {
+  const _Image({
+    required this.coffe,
+  });
+
+  final CoffeeModel coffe;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: AspectRatio(
+        aspectRatio: 3 / 4,
+        child: Image.asset(
+          coffe.imagePath,
+          // fit: BoxFit.cover,
+        ),
       ),
     );
   }
