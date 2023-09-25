@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:custom_flutter/check/animation_coffe/models/coffee.dart';
+import 'package:custom_flutter/feature/animation_coffe/models/coffee.dart';
 import 'package:flutter/material.dart';
 
 class AnimationCoffe extends StatefulWidget {
@@ -17,28 +17,42 @@ class _AnimationCoffeState extends State<AnimationCoffe> {
   int _currentIndex = 2;
   int _numberPage = 0;
 
+  void controllerListener() {
+    //huong don, animation 1 huong
+    // print(_slidePageController.position.userScrollDirection);
+
+    _numberPage = _slidePageController.page!.floor();
+    _currentIndex = _slidePageController.page!.floor() % coffes.length;
+    _percent =
+        (_slidePageController.page! % coffes.length - _currentIndex).abs();
+
+    _titlePageController.jumpTo(_slidePageController.page! %
+        coffes.length *
+        MediaQuery.of(context).size.width);
+
+    // _currentIndex = _slidePageController.page!.floor();
+    // _percent = (_slidePageController.page! - _currentIndex).abs();
+
+    // _titlePageController.jumpTo(
+    //     _slidePageController.page! * MediaQuery.of(context).size.width);
+    setState(() {});
+  }
+
   @override
   void initState() {
     _slidePageController = PageController(initialPage: _currentIndex);
     _titlePageController = PageController(initialPage: _currentIndex);
 
-    _slidePageController.addListener(() {
-      _numberPage = _slidePageController.page!.floor();
-      _currentIndex = _slidePageController.page!.floor() % coffes.length;
-      _percent =
-          (_slidePageController.page! % coffes.length - _currentIndex).abs();
-
-      _titlePageController.jumpTo(_slidePageController.page! %
-          coffes.length *
-          MediaQuery.of(context).size.width);
-      // _currentIndex = _slidePageController.page!.floor();
-      // _percent = (_slidePageController.page! - _currentIndex).abs();
-
-      // _titlePageController.jumpTo(
-      //     _slidePageController.page! * MediaQuery.of(context).size.width);
-      setState(() {});
-    });
+    _slidePageController.addListener(controllerListener);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _slidePageController.removeListener(controllerListener);
+    _slidePageController.dispose();
+    _titlePageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -108,7 +122,6 @@ class _Carousel extends StatelessWidget {
     return LayoutBuilder(builder: (context, constraints) {
       final height = constraints.maxHeight;
       if (numberPage >= coffes.length - 1) {
-        print((currentIndex - 2) % coffes.length);
         return Stack(
           alignment: Alignment.center,
           children: [

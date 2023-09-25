@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:custom_flutter/testModel/models.dart';
 import 'package:flutter/material.dart';
 
 class Test extends StatefulWidget {
@@ -8,116 +11,143 @@ class Test extends StatefulWidget {
 }
 
 class _TestState extends State<Test> {
-  final ScrollController scrollController = ScrollController();
-  final ScrollController scrollController2 = ScrollController();
+  late PageController _pageController;
+  final int _currentIndex = 0;
+  bool check = false;
+  double _percent = 0.0;
 
-  late List<double> list = [];
-  late List<double> list2 = [];
-  bool uniqueTemp = true;
-
-  int abc = 0;
+  void handleCheck() {
+    setState(() {
+      check = !check;
+    });
+  }
 
   @override
   void initState() {
-    super.initState();
-    scrollController2.addListener(() {
-      print("object");
-      scrollController.animateTo(
-        list[1],
-        duration: const Duration(seconds: 1),
-        curve: Curves.bounceOut,
-      );
-    });
+    _pageController = PageController(
+      viewportFraction: 0.7,
+      initialPage: _currentIndex,
+    );
 
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   scrollController.animateTo(
-    //     scrollController.position.,
-    //     duration: const Duration(seconds: 1),
-    //     curve: Curves.bounceOut,
-    //   );
-    // },);
+    _pageController.addListener(pageViewListener);
+    super.initState();
+  }
+
+  void pageViewListener() {
+    //animation huong doi
+
+    // _currentIndex = _pageController.page!.floor();
+    // _percent = (_pageController.page! - _currentIndex).abs();
+
+    _percent = _pageController.page!;
+
+    setState(() {});
   }
 
   @override
   void dispose() {
-    scrollController.dispose();
-    scrollController2.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // print(list);
-    // print(list2);
+    return Scaffold(
+      body: SafeArea(
+        child: Column(children: [
+          _Appbar(check: check),
+          Expanded(
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: Boat.listBoat.length,
+              itemBuilder: (context, index) {
+                final item = Boat.listBoat[index];
+                //animation 2 huong
+                // khi ta print index no se print 2 gia tri
+                final percentBetween2Index = (_percent - index).abs();
+
+                return Opacity(
+                  opacity: (1 - percentBetween2Index).clamp(0, 1),
+                  child: Transform.scale(
+                    scale: lerpDouble(1.0, 0.7, percentBetween2Index),
+                    child: Hero(
+                      tag: "tag$index",
+                      child: Image.asset(item.image),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          Container(),
+          Builder(
+            builder: (context) => FilledButton(
+              onPressed: () {
+                handleCheck();
+
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    reverseTransitionDuration:
+                        const Duration(milliseconds: 600),
+                    transitionDuration: const Duration(milliseconds: 600),
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: Details(
+                          currentIndex: _currentIndex,
+                          percent: _percent,
+                          onPressed: handleCheck,
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+              child: const Text("test page"),
+            ),
+          ),
+          // Details(currentIndex: _currentIndex, percent: _percent)
+        ]),
+      ),
+    );
+  }
+}
+
+class Details extends StatelessWidget {
+  final int currentIndex;
+  final double percent;
+  final VoidCallback onPressed;
+  const Details({
+    super.key,
+    required this.currentIndex,
+    required this.percent,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: 200,
-              child: ListView.builder(
-                controller: scrollController,
-                itemCount: 9,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return GetBoxOffset(
-                    offset: (offset) {
-                      print(offset.dx);
-                      if (uniqueTemp) {
-                        list.add(offset.dx);
-                        if (index == 8) {
-                          uniqueTemp = false;
-                        }
-                        setState(() {});
-                      }
-                    },
-                    child: FilledButton(
-                      onPressed: () {
-                        // SchedulerBinding.instance.addPostFrameCallback((_) {
-                        //   scrollController.animateTo(
-                        //     scrollController.position.maxScrollExtent,
-                        //     duration: const Duration(seconds: 1),
-                        //     curve: Curves.bounceOut,
-                        //   );
-                        // });
-                        print(index);
-                        scrollController2.animateTo(
-                          list2[index],
-                          duration: const Duration(seconds: 1),
-                          curve: Curves.bounceOut,
-                        );
-                      },
-                      child: Text('$index - data - $index'),
-                    ),
-                  );
-                },
+            Center(
+              child: Hero(
+                tag: 'tag',
+                child: Image.asset(
+                  'assets/coffee/1.png',
+                  width: 50,
+                  height: 50,
+                ),
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                controller: scrollController2,
-                itemCount: 19,
-                itemBuilder: (context, index) {
-                  return GetBoxOffset(
-                    offset: (offset) {
-                      if (uniqueTemp) {
-                        list2.add(offset.dy - 200);
-                        if (index == 8) {
-                          uniqueTemp = false;
-                        }
-                        setState(() {});
-                      }
-                    },
-                    child: Container(
-                      color: Colors.white,
-                      height: 80,
-                      width: 80,
-                      child: Text("index - $index"),
-                    ),
-                  );
-                },
-              ),
-            )
+            FilledButton(
+              onPressed: () {
+                onPressed();
+                Navigator.pop(context);
+              },
+              child: const Text("data"),
+            ),
           ],
         ),
       ),
@@ -125,41 +155,33 @@ class _TestState extends State<Test> {
   }
 }
 
-//get offset
-class GetBoxOffset extends StatefulWidget {
-  final Widget child;
-  final Function(Offset offset) offset;
-
-  const GetBoxOffset({
-    Key? key,
-    required this.child,
-    required this.offset,
-  }) : super(key: key);
-
-  @override
-  State<GetBoxOffset> createState() => _GetBoxOffsetState();
-}
-
-class _GetBoxOffsetState extends State<GetBoxOffset> {
-  GlobalKey widgetKey = GlobalKey();
-
-  late Offset offset;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final box = widgetKey.currentContext?.findRenderObject() as RenderBox;
-      offset = box.localToGlobal(Offset.zero);
-      widget.offset(offset);
-    });
-  }
+class _Appbar extends StatelessWidget {
+  final bool check;
+  const _Appbar({required this.check});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      key: widgetKey,
-      child: widget.child,
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 600),
+      curve: Curves.fastOutSlowIn,
+      transform: Matrix4.identity()..setTranslationRaw(0, check ? -100 : 0, 0),
+      child: AnimatedOpacity(
+        opacity: check ? 0 : 1,
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.fastOutSlowIn,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          height: 100,
+          color: Colors.blue.shade200,
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Icon(Icons.home),
+              Icon(Icons.search),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

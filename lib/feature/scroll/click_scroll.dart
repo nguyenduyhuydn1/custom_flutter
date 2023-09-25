@@ -50,8 +50,8 @@ class _ClickScrollState extends State<ClickScroll> {
 
   @override
   Widget build(BuildContext context) {
-    print(list);
-    print(list2);
+    // print(list);
+    // print(list2);
     return Scaffold(
       body: SafeArea(
         child: Column(

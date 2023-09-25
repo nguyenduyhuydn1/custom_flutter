@@ -2,13 +2,11 @@ import 'package:custom_flutter/feature/index.dart';
 import 'package:custom_flutter/test.dart';
 import 'package:flutter/material.dart';
 
-import 'package:custom_flutter/Klerith/main.dart';
 import 'package:custom_flutter/sliver_app_bar/index.dart';
 import 'package:custom_flutter/bottom_navigation_bar/index.dart';
 import 'package:custom_flutter/dragg_able_scrollable_sheet/index.dart';
 import 'package:custom_flutter/page_transition/components/page_transition.dart';
 import 'package:custom_flutter/check/index.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
@@ -46,7 +44,6 @@ class MainApp extends StatelessWidget {
 
     /////////////////////////// check
     const listAnimation = [
-      AnimationCoffe(),
       AnimationSlide(),
       Card1(),
       ShowModalBottomSheet(),
@@ -59,13 +56,7 @@ class MainApp extends StatelessWidget {
     const feature = [
       ClickScroll(),
       ScrollMove(),
-    ];
-
-    ///
-
-    /////////////////////////// Klerith
-    const klerith = [
-      KlerithApp(),
+      AnimationCoffe(),
     ];
 
     ///
@@ -96,10 +87,6 @@ class MainApp extends StatelessWidget {
               const _DropDownButton(
                 listWidgets: listAnimation,
                 title: "Check",
-              ),
-              const _DropDownButton(
-                listWidgets: klerith,
-                title: "klerith",
               ),
               const _DropDownButton(
                 listWidgets: feature,
