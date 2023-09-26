@@ -4,14 +4,14 @@ import 'dart:ui';
 import 'package:custom_flutter/feature/boats/model/models.dart';
 import 'package:flutter/material.dart';
 
-class Test extends StatefulWidget {
-  const Test({super.key});
+class Boats extends StatefulWidget {
+  const Boats({super.key});
 
   @override
-  State<Test> createState() => _TestState();
+  State<Boats> createState() => _BoatsState();
 }
 
-class _TestState extends State<Test> {
+class _BoatsState extends State<Boats> {
   late PageController _pageController;
   int _currentIndex = 0;
   bool check = false;

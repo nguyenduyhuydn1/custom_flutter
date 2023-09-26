@@ -57,6 +57,7 @@ class MainApp extends StatelessWidget {
       ClickScroll(),
       ScrollMove(),
       AnimationCoffe(),
+      Boats(),
     ];
 
     ///
