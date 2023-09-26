@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:custom_flutter/testModel/models.dart';
@@ -12,15 +13,9 @@ class Test extends StatefulWidget {
 
 class _TestState extends State<Test> {
   late PageController _pageController;
-  final int _currentIndex = 0;
+  int _currentIndex = 0;
   bool check = false;
   double _percent = 0.0;
-
-  void handleCheck() {
-    setState(() {
-      check = !check;
-    });
-  }
 
   @override
   void initState() {
@@ -33,12 +28,14 @@ class _TestState extends State<Test> {
     super.initState();
   }
 
+  void handleCheck() {
+    setState(() {
+      check = !check;
+    });
+  }
+
   void pageViewListener() {
-    //animation huong doi
-
-    // _currentIndex = _pageController.page!.floor();
-    // _percent = (_pageController.page! - _currentIndex).abs();
-
+    _currentIndex = _pageController.page!.floor();
     _percent = _pageController.page!;
 
     setState(() {});
@@ -70,86 +67,169 @@ class _TestState extends State<Test> {
                   opacity: (1 - percentBetween2Index).clamp(0, 1),
                   child: Transform.scale(
                     scale: lerpDouble(1.0, 0.7, percentBetween2Index),
-                    child: Hero(
-                      tag: "tag$index",
-                      child: Image.asset(item.image),
+                    child: GestureDetector(
+                      onTap: () {
+                        const Duration duration = Duration(milliseconds: 600);
+                        handleCheck();
+
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            // pop page
+                            reverseTransitionDuration: duration,
+                            // push page
+                            transitionDuration: duration,
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: Details(
+                                  currentIndex: _currentIndex,
+                                  percent: percentBetween2Index,
+                                  onPressed: handleCheck,
+                                  item: item,
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      child: Hero(
+                        tag: "tag$index",
+                        child: Image.asset(item.image),
+                      ),
                     ),
                   ),
                 );
               },
             ),
           ),
-          Builder(
-            builder: (context) => FilledButton(
-              onPressed: () {
-                handleCheck();
-
-                Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    reverseTransitionDuration:
-                        const Duration(milliseconds: 600),
-                    transitionDuration: const Duration(milliseconds: 600),
-                    pageBuilder: (context, animation, secondaryAnimation) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: Details(
-                          currentIndex: _currentIndex,
-                          percent: _percent,
-                          onPressed: handleCheck,
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-              child: const Text("test page"),
-            ),
-          ),
-          // Details(currentIndex: _currentIndex, percent: _percent)
         ]),
       ),
     );
   }
 }
 
-class Details extends StatelessWidget {
+class Details extends StatefulWidget {
   final int currentIndex;
   final double percent;
   final VoidCallback onPressed;
+  final Boat item;
+
   const Details({
     super.key,
     required this.currentIndex,
     required this.percent,
     required this.onPressed,
+    required this.item,
   });
 
   @override
+  State<Details> createState() => _DetailsState();
+}
+
+class _DetailsState extends State<Details> {
+  final rotate = pi * -0.5;
+  final double dx = 80.0;
+  final double dy = -100;
+  bool checkDetails = false;
+
+  Widget _flightShuttleBuilder(
+      Animation<double> animation, HeroFlightDirection flightDirection) {
+    final isPop = flightDirection == HeroFlightDirection.pop;
+
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (context, child) {
+        final value = isPop
+            ? Curves.easeInBack.transform(animation.value)
+            : Curves.easeOutBack.transform(animation.value);
+        return Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.identity()
+            ..translate(dx * value, dy * value, 0)
+            ..rotateZ(rotate * value),
+          child: child,
+        );
+      },
+      child: _Image(widget: widget),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
-            Center(
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  checkDetails = true;
+                });
+                widget.onPressed();
+                Navigator.pop(context);
+              },
               child: Hero(
-                tag: 'tag',
-                child: Image.asset(
-                  'assets/coffee/1.png',
-                  width: 50,
-                  height: 50,
+                tag: 'tag${widget.currentIndex}',
+                flightShuttleBuilder: (_, animation, flightDirection, __, ___) {
+                  return _flightShuttleBuilder(animation, flightDirection);
+                },
+                child: Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.identity()
+                    ..translate(dx, dy, 0)
+                    ..rotateZ(rotate),
+                  child: _Image(widget: widget),
                 ),
               ),
             ),
-            FilledButton(
-              onPressed: () {
-                onPressed();
-                Navigator.pop(context);
+            const Spacer(),
+            TweenAnimationBuilder(
+              duration: const Duration(milliseconds: 1000),
+              tween: Tween(
+                  begin: checkDetails ? 0.0 : 1.0,
+                  end: checkDetails ? 1.0 : 0.0),
+              curve: Curves.fastOutSlowIn,
+              builder: (context, value, child) {
+                return Opacity(
+                  opacity: 1 - value,
+                  child: Transform.translate(
+                    offset: Offset(0, 100 * value),
+                    child: child!,
+                  ),
+                );
               },
-              child: const Text("data"),
-            ),
+              child: Container(
+                height: size.height * 0.3,
+                width: size.width,
+                color: Colors.red,
+                child: const Center(
+                  child: Text("data"),
+                ),
+              ),
+            )
           ],
         ),
       ),
+    );
+  }
+}
+
+class _Image extends StatelessWidget {
+  const _Image({
+    required this.widget,
+  });
+
+  final Details widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      widget.item.image,
+      height: 410,
     );
   }
 }
@@ -184,3 +264,4 @@ class _Appbar extends StatelessWidget {
     );
   }
 }
+// https://www.youtube.com/watch?v=EEx2gSJFAPk
