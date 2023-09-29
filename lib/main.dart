@@ -9,6 +9,8 @@ import 'package:custom_flutter/page_transition/components/page_transition.dart';
 import 'package:custom_flutter/check/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:custom_flutter/chip_button/chip_button.dart';
+
 void main() {
   runApp(const ProviderScope(child: MainApp()));
 }
@@ -52,7 +54,7 @@ class MainApp extends StatelessWidget {
 
     ///
 
-    /////////////////////////// Klerith
+    /////////////////////////// feature
     const feature = [
       ClickScroll(),
       ScrollMove(),
@@ -62,6 +64,12 @@ class MainApp extends StatelessWidget {
 
     ///
 
+    /////////////////////////// Chip Button
+    const chipButton = [
+      ChipButton(),
+    ];
+
+    ///
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -92,6 +100,10 @@ class MainApp extends StatelessWidget {
               const _DropDownButton(
                 listWidgets: feature,
                 title: "feature",
+              ),
+              const _DropDownButton(
+                listWidgets: chipButton,
+                title: "chipButton",
               ),
               Builder(
                 builder: (context) => FilledButton(
