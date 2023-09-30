@@ -64,7 +64,9 @@ class _ClickScrollState extends State<ClickScroll> {
                 child: Row(
                   children: List.generate(number, (index) {
                     return GetBoxOffset(
-                      offset: (offset) {
+                      offset: (offset, box) {
+                        // print(box?.size);
+                        // print(offset);
                         if (uniqueTemp) {
                           list.add(offset.dx);
                           if (index == number - 1) {
@@ -101,7 +103,7 @@ class _ClickScrollState extends State<ClickScroll> {
                 child: Column(
                   children: List.generate(number, (index) {
                     return GetBoxOffset(
-                      offset: (offset) {
+                      offset: (offset, box) {
                         if (uniqueTemp2) {
                           list2.add(offset.dy - 200);
                           if (index == number - 1) {
@@ -131,7 +133,7 @@ class _ClickScrollState extends State<ClickScroll> {
 //get offset
 class GetBoxOffset extends StatefulWidget {
   final Widget child;
-  final Function(Offset offset) offset;
+  final Function(Offset offset, RenderBox? box) offset;
 
   const GetBoxOffset({
     Key? key,
@@ -154,7 +156,7 @@ class _GetBoxOffsetState extends State<GetBoxOffset> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final box = widgetKey.currentContext?.findRenderObject() as RenderBox;
       offset = box.localToGlobal(Offset.zero);
-      widget.offset(offset);
+      widget.offset(offset, box);
     });
   }
 

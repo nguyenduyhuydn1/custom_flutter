@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:custom_flutter/testModel/models.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,12 @@ class Test extends StatefulWidget {
 
 class _TestState extends State<Test> with TickerProviderStateMixin {
   late PageController _pageController;
-  late AnimationController _animationController;
+  late AnimationController _toppingController;
+
+  late AnimationController _addCartAnimation;
+  late Animation _scalePizzaAnimation;
+  late Animation _scaleBoxAnimation;
+  late Animation _closeBoxAnimation;
 
   int _currentIndex = 0;
 
@@ -24,13 +30,35 @@ class _TestState extends State<Test> with TickerProviderStateMixin {
 
   final List<Animation> _listAnimation = [];
 
+  bool _expanded = false;
+
   @override
   void initState() {
     _pageController = PageController(initialPage: _currentIndex);
 
-    _animationController = AnimationController(
+    _toppingController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 800),
+    );
+
+    _addCartAnimation = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+
+    _scalePizzaAnimation = Tween(begin: 1.0, end: 0.5).animate(CurvedAnimation(
+      parent: _addCartAnimation,
+      curve: const Interval(0.0, 0.2, curve: Curves.decelerate),
+    ));
+
+    _scaleBoxAnimation = CurvedAnimation(
+      parent: _addCartAnimation,
+      curve: const Interval(0.0, 0.4, curve: Curves.decelerate),
+    );
+
+    _closeBoxAnimation = CurvedAnimation(
+      parent: _addCartAnimation,
+      curve: const Interval(0.6, 1.0, curve: Curves.decelerate),
     );
 
     super.initState();
@@ -39,7 +67,9 @@ class _TestState extends State<Test> with TickerProviderStateMixin {
   @override
   void dispose() {
     _pageController.dispose();
-    _animationController.dispose();
+    _toppingController.dispose();
+    _addCartAnimation.dispose();
+
     super.dispose();
   }
 
@@ -55,7 +85,7 @@ class _TestState extends State<Test> with TickerProviderStateMixin {
         end = Random().nextDouble();
       }
       _listAnimation.add(CurvedAnimation(
-        parent: _animationController,
+        parent: _toppingController,
         curve: Interval(begin, end, curve: Curves.decelerate),
       ));
     }
@@ -93,31 +123,26 @@ class _TestState extends State<Test> with TickerProviderStateMixin {
             } else {
               fromY = widthConstraints * (1 - animation.value);
             }
-
-            var opaity = animation.value;
             if (animation.value > 0) {
-              toppingWidget.add(Opacity(
-                opacity: opaity,
-                child: Transform(
-                  transform: Matrix4.identity()
-                    ..translate(
-                      fromX + widthConstraints / 2 * x,
-                      fromY + widthConstraints / 2 * y,
-                    ),
-                  child: image,
-                ),
+              toppingWidget.add(Transform(
+                transform: Matrix4.identity()
+                  ..translate(
+                    fromX + widthConstraints / 2 * x,
+                    fromY + widthConstraints / 2 * y,
+                  ),
+                child: Container(color: Colors.red, child: image),
               ));
             }
+          } else {
+            toppingWidget.add(Transform(
+              transform: Matrix4.identity()
+                ..translate(
+                  widthConstraints / 2 * x,
+                  widthConstraints / 2 * y,
+                ),
+              child: Container(color: Colors.blue, child: image),
+            ));
           }
-
-          toppingWidget.add(Transform(
-            transform: Matrix4.identity()
-              ..translate(
-                widthConstraints / 2 * x,
-                widthConstraints / 2 * y,
-              ),
-            child: image,
-          ));
         }
       }
       return Stack(children: toppingWidget);
@@ -130,7 +155,7 @@ class _TestState extends State<Test> with TickerProviderStateMixin {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: const _Appbar(size: 100, title: "Pizza"),
+      // appBar: const _Appbar(size: 100, title: "Pizza"),
       body: Column(children: [
         SizedBox(
           height: size.height * 0.5,
@@ -138,73 +163,132 @@ class _TestState extends State<Test> with TickerProviderStateMixin {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Image.asset(dish, width: 350),
-              PageView.builder(
-                controller: _pageController,
-                itemCount: dataPizza.length,
-                onPageChanged: (value) {
-                  setState(() {
-                    _currentIndex = value;
-                    selectedTopping = [];
-                  });
-                },
-                itemBuilder: (context, index) {
-                  final item = dataPizza[index];
-                  final double check = _currentSize == 0
-                      ? 0.8
-                      : _currentSize == 1
-                          ? 0.9
-                          : 1;
-
-                  return Center(
-                    child: Transform.scale(
-                      scale: check,
-                      child: DragTarget<Topping>(
-                        onAccept: (data) {
-                          _notifierTopping.value = false;
-                          setState(() {
-                            selectedTopping.add(data);
-                          });
-                          _buildToppingAnimation();
-                          _animationController.forward(from: 0.0);
-                        },
-                        onWillAccept: (data) {
-                          _notifierTopping.value = false;
-                          for (Topping topping in selectedTopping) {
-                            if (topping.onList == data!.onList) {
-                              return false;
-                            }
-                          }
-
-                          return true;
-                        },
-                        onLeave: (data) {
-                          _notifierTopping.value = false;
-                        },
-                        builder: (context, candidateData, rejectedData) {
-                          return SizedBox(
-                            width: 350,
-                            child: LayoutBuilder(
-                              builder: (context, constraints) {
-                                boxConstraintsPizza = constraints;
-
-                                return Image.asset(item.image,
-                                    fit: BoxFit.cover);
-                              },
-                            ),
-                          );
-                        },
-                      ),
+              AnimatedBuilder(
+                animation: _scaleBoxAnimation,
+                builder: (context, child) {
+                  return Transform(
+                    alignment: Alignment.topCenter,
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, 0.003)
+                      ..rotateX((-45.0 * pi) / 180.0)
+                      ..scale(_scaleBoxAnimation.value),
+                    child: Image.asset(
+                      boxPizzas[2].image,
+                      width: 200,
+                      height: 200,
                     ),
                   );
                 },
               ),
               AnimatedBuilder(
-                animation: _animationController,
+                animation: _scalePizzaAnimation,
                 builder: (context, child) {
-                  return _buildToppingWidget();
+                  return Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.identity()
+                      ..scale(_scalePizzaAnimation.value)
+                      ..rotateZ(pi * _scalePizzaAnimation.value),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.asset(dish, width: 350),
+                        PageView.builder(
+                          controller: _pageController,
+                          itemCount: dataPizza.length,
+                          onPageChanged: (value) {
+                            setState(() {
+                              _currentIndex = value;
+                              selectedTopping = [];
+                            });
+                          },
+                          itemBuilder: (context, index) {
+                            final item = dataPizza[index];
+                            final double check = _currentSize == 0
+                                ? 0.8
+                                : _currentSize == 1
+                                    ? 0.9
+                                    : 1;
+
+                            return Center(
+                              child: Transform.scale(
+                                scale: check,
+                                child: DragTarget<Topping>(
+                                  onAccept: (data) {
+                                    _notifierTopping.value = false;
+                                    setState(() {
+                                      selectedTopping.add(data);
+                                    });
+                                    _buildToppingAnimation();
+                                    _toppingController.forward(from: 0.0);
+                                  },
+                                  onWillAccept: (data) {
+                                    _notifierTopping.value = false;
+                                    for (Topping topping in selectedTopping) {
+                                      if (topping.onList == data!.onList) {
+                                        return false;
+                                      }
+                                    }
+
+                                    return true;
+                                  },
+                                  onLeave: (data) {
+                                    _notifierTopping.value = false;
+                                  },
+                                  builder:
+                                      (context, candidateData, rejectedData) {
+                                    return SizedBox(
+                                      width: 350,
+                                      child: LayoutBuilder(
+                                        builder: (context, constraints) {
+                                          boxConstraintsPizza = constraints;
+
+                                          return Image.asset(item.image,
+                                              fit: BoxFit.cover);
+                                        },
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        AnimatedBuilder(
+                          animation: _toppingController,
+                          builder: (context, child) {
+                            return _buildToppingWidget();
+                          },
+                        ),
+                      ],
+                    ),
+                  );
                 },
-              )
+              ),
+              AnimatedBuilder(
+                animation: Listenable.merge([
+                  _scaleBoxAnimation,
+                  _closeBoxAnimation,
+                ]),
+                builder: (context, child) {
+                  final aa =
+                      (lerpDouble(-145, -45, _closeBoxAnimation.value)! * pi) /
+                          180.0;
+
+                  return Transform(
+                    alignment: Alignment.topCenter,
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, 0.003)
+                      // ..rotateX((-130.0 * pi) / 180.0),
+                      ..rotateX(aa)
+                      ..scale(_scaleBoxAnimation.value),
+                    child: Image.asset(
+                      boxPizzas[1].image,
+                      width: 200,
+                      height: 200,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),
@@ -221,7 +305,18 @@ class _TestState extends State<Test> with TickerProviderStateMixin {
         const SizedBox(height: 20),
         const _Topping(),
         const SizedBox(height: 20),
-        const _Submit(),
+        _Submit(onPressed: () {
+          setState(() {
+            _expanded = !_expanded;
+          });
+          if (_expanded) {
+            _addCartAnimation.forward();
+          } else {
+            _addCartAnimation.reverse();
+          }
+
+          // _boxController.forward(from: 0.0);
+        }),
         const SizedBox(height: 50),
       ]),
     );
@@ -274,11 +369,12 @@ class _Size extends StatelessWidget {
 }
 
 class _Submit extends StatelessWidget {
-  const _Submit();
+  final VoidCallback onPressed;
+  const _Submit({required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return FilledButton(onPressed: () {}, child: const Text("Add Cart"));
+    return FilledButton(onPressed: onPressed, child: const Text("Add Cart"));
   }
 }
 
