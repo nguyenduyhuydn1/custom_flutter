@@ -1,17 +1,18 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:custom_flutter/testModel/models.dart';
+import 'package:custom_flutter/feature/get_box_offset.dart';
+import 'package:custom_flutter/feature/pizza/model/models.dart';
 import 'package:flutter/material.dart';
 
-class Test extends StatefulWidget {
-  const Test({super.key});
+class Pizza extends StatefulWidget {
+  const Pizza({super.key});
 
   @override
-  State<Test> createState() => _TestState();
+  State<Pizza> createState() => _PizzaState();
 }
 
-class _TestState extends State<Test> with TickerProviderStateMixin {
+class _PizzaState extends State<Pizza> with TickerProviderStateMixin {
   late PageController _pageController;
   late AnimationController _toppingController;
 
@@ -208,7 +209,7 @@ class _TestState extends State<Test> with TickerProviderStateMixin {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      // appBar: const _Appbar(size: 100, title: "Pizza"),
+      appBar: const _Appbar(size: 100, title: "Pizza"),
       body: Column(children: [
         SizedBox(
           height: size.height * 0.5,
@@ -611,43 +612,4 @@ class _Appbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-//get offset
-class GetBoxOffset extends StatefulWidget {
-  final Widget child;
-  final Function(Offset offset, RenderBox? box) offset;
-
-  const GetBoxOffset({
-    Key? key,
-    required this.child,
-    required this.offset,
-  }) : super(key: key);
-
-  @override
-  State<GetBoxOffset> createState() => _GetBoxOffsetState();
-}
-
-class _GetBoxOffsetState extends State<GetBoxOffset> {
-  GlobalKey widgetKey = GlobalKey();
-
-  late Offset offset;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final box = widgetKey.currentContext?.findRenderObject() as RenderBox;
-      offset = box.localToGlobal(Offset.zero);
-      widget.offset(offset, box);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      key: widgetKey,
-      child: widget.child,
-    );
-  }
 }

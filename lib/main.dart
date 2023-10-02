@@ -60,6 +60,7 @@ class MainApp extends StatelessWidget {
       ScrollMove(),
       AnimationCoffe(),
       Boats(),
+      Pizza(),
     ];
 
     ///
