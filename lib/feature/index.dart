@@ -8,3 +8,5 @@ export './boats/boats.dart';
 export './pizza/pizza.dart';
 
 export './animation_scroll_3d/animation_scroll_3d.dart';
+
+export './scroll_rotate_swap_position/scroll_rotate_swap_position.dart';

@@ -19,7 +19,7 @@ class _ScrollRotateSwapPositionState extends State<ScrollRotateSwapPosition> {
       body: SafeArea(
         child: CustomScrollView(slivers: [
           SliverPersistentHeader(
-            delegate: CustomSliverAppBarDelegate(
+            delegate: CustomSliver(
               expandedHeight: 300,
               size: size,
             ),
@@ -40,11 +40,11 @@ class _ScrollRotateSwapPositionState extends State<ScrollRotateSwapPosition> {
   }
 }
 
-class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+class CustomSliver extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   final Size size;
 
-  const CustomSliverAppBarDelegate({
+  const CustomSliver({
     required this.expandedHeight,
     required this.size,
   });
