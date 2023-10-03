@@ -2,14 +2,15 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class Test extends StatefulWidget {
-  const Test({super.key});
+class ScrollRotateSwapPosition extends StatefulWidget {
+  const ScrollRotateSwapPosition({super.key});
 
   @override
-  State<Test> createState() => _TestState();
+  State<ScrollRotateSwapPosition> createState() =>
+      _ScrollRotateSwapPositionState();
 }
 
-class _TestState extends State<Test> {
+class _ScrollRotateSwapPositionState extends State<ScrollRotateSwapPosition> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -107,12 +108,9 @@ class _BottomBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Positioned.fill(
       top: null,
       left: 5 * lerpDouble(0, -30, percent)!,
-      // left: size.width * lerpDouble(45, 0, percent)!,
       child: ClipPath(
         clipper: Rectangle(),
         child: Container(
