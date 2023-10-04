@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class M3 {
+class M4 {
   final bool isSelected;
   final Color color;
 
-  M3({required this.isSelected, required this.color});
+  M4({required this.isSelected, required this.color});
 
-  M3 copyWith({
+  M4 copyWith({
     Color? color,
     bool? isSelected,
   }) =>
-      M3(
+      M4(
         color: color ?? this.color,
         isSelected: isSelected ?? this.isSelected,
       );
@@ -18,7 +18,7 @@ class M3 {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is M3 &&
+      other is M4 &&
           runtimeType == other.runtimeType &&
           isSelected == other.isSelected &&
           color == other.color;
@@ -29,21 +29,21 @@ class M3 {
   // int get hashCode => color.hashCode ^ isSelected.hashCode;
 }
 
-class Test extends StatefulWidget {
-  const Test({super.key});
+class ScrollVerticalScale extends StatefulWidget {
+  const ScrollVerticalScale({super.key});
 
   @override
-  State<Test> createState() => _TestState();
+  State<ScrollVerticalScale> createState() => _ScrollVerticalScaleState();
 }
 
-class _TestState extends State<Test> {
+class _ScrollVerticalScaleState extends State<ScrollVerticalScale> {
   late ScrollController scrollController;
 
-  List<M3> dataM3 = [
-    M3(isSelected: false, color: Colors.red),
-    M3(isSelected: false, color: Colors.blue),
-    M3(isSelected: false, color: Colors.green),
-    M3(isSelected: false, color: Colors.amber),
+  List<M4> dataM3 = [
+    M4(isSelected: false, color: Colors.red),
+    M4(isSelected: false, color: Colors.blue),
+    M4(isSelected: false, color: Colors.green),
+    M4(isSelected: false, color: Colors.amber),
   ];
 
   double percent = 0;

@@ -63,6 +63,8 @@ class MainApp extends StatelessWidget {
       Pizza(),
       AnimationScroll3D(),
       ScrollRotateSwapPosition(),
+      RotateNagativePage(),
+      ScrollVerticalScale(),
     ];
 
     ///
