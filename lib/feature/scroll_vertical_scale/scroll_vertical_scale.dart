@@ -130,3 +130,5 @@ class _ScrollVerticalScaleState extends State<ScrollVerticalScale> {
     );
   }
 }
+
+// https://www.youtube.com/watch?v=TjgtUr4LwRg
