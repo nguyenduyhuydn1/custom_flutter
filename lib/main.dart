@@ -1,5 +1,7 @@
 import 'package:custom_flutter/feature/index.dart';
+import 'package:custom_flutter/testModel/test.dart';
 import 'package:custom_flutter/test.dart';
+// import 'package:custom_flutter/test.dart';
 import 'package:flutter/material.dart';
 
 import 'package:custom_flutter/sliver_app_bar/index.dart';
@@ -115,10 +117,21 @@ class MainApp extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Test()),
+                      MaterialPageRoute(builder: (context) => const Test1()),
                     );
                   },
                   child: const Text("test page"),
+                ),
+              ),
+              Builder(
+                builder: (context) => FilledButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Test()),
+                    );
+                  },
+                  child: const Text("test page2"),
                 ),
               ),
               const Placeholder(),

@@ -1,3 +1,4 @@
+import 'package:custom_flutter/buttons/lite_rolling_switch.dart';
 import 'package:flutter/material.dart';
 
 class Test extends StatefulWidget {
@@ -10,6 +11,10 @@ class Test extends StatefulWidget {
 class _TestState extends State<Test> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Scaffold(
+      body: Column(
+        children: [],
+      ),
+    );
   }
 }
