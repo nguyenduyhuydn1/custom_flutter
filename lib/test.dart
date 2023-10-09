@@ -51,7 +51,6 @@ class _TestState extends State<Test> {
               ...List.generate(dataM4.length, (index) {
                 final item = dataM4[index];
                 final checkIsFront = currentIndex == index;
-                print(checkIsFront);
                 return Block(
                   size: size,
                   item: item,
@@ -123,9 +122,11 @@ class _BlockState extends State<Block> {
                 model.updatePosition(details);
               },
               onPanEnd: (details) async {
-                await model.endPosition();
-                await Future.delayed(const Duration(milliseconds: 500), () {
+                model.endPosition();
+                await Future.delayed(const Duration(milliseconds: 300), () {
                   widget.onPressed();
+
+                  model.resetPositions();
                 });
               },
               child: Center(
@@ -184,7 +185,7 @@ class CardProvider extends ChangeNotifier {
     screenSize = size;
   }
 
-  Future<void> endPosition() async {
+  void endPosition() {
     isDragging = false;
 
     final status = _getStatus();
@@ -202,11 +203,6 @@ class CardProvider extends ChangeNotifier {
     }
 
     notifyListeners();
-
-    await Future.delayed(const Duration(milliseconds: 50), () {
-      positions = Offset.zero;
-      angle = 0;
-    });
   }
 
   void like() {
@@ -242,7 +238,7 @@ class CardProvider extends ChangeNotifier {
     }
   }
 
-  void _resetPositions() {
+  void resetPositions() {
     isDragging = false;
     positions = Offset.zero;
     angle = 0;
