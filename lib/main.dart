@@ -67,6 +67,7 @@ class MainApp extends StatelessWidget {
       ScrollRotateSwapPosition(),
       RotateNagativePage(),
       ScrollVerticalScale(),
+      Tinder(),
     ];
 
     ///

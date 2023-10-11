@@ -14,3 +14,5 @@ export './scroll_rotate_swap_position/scroll_rotate_swap_position.dart';
 export './rotate_nagative_page/rotate_nagative_page.dart';
 
 export './scroll_vertical_scale/scroll_vertical_scale.dart';
+
+export './tinder/tinder.dart';
