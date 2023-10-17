@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Test extends StatefulWidget {
-  const Test({super.key});
+class SplitScreen extends StatefulWidget {
+  const SplitScreen({super.key});
 
   @override
-  State<Test> createState() => _TestState();
+  State<SplitScreen> createState() => _SplitScreenState();
 }
 
-class _TestState extends State<Test> {
+class _SplitScreenState extends State<SplitScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
