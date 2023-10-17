@@ -16,3 +16,5 @@ export './rotate_nagative_page/rotate_nagative_page.dart';
 export './scroll_vertical_scale/scroll_vertical_scale.dart';
 
 export './tinder/tinder.dart';
+
+export './bank_card/bank_card.dart';

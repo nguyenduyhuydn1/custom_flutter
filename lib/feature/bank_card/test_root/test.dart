@@ -1,8 +1,8 @@
-import 'package:custom_flutter/testModel/bank_card_model.dart';
-import 'package:custom_flutter/testModel/constants.dart';
-import 'package:custom_flutter/testModel/widgets/add_card.dart';
-import 'package:custom_flutter/testModel/widgets/bank_card.dart';
-import 'package:custom_flutter/testModel/widgets/profile_section.dart';
+import 'package:custom_flutter/feature/bank_card/test_root/bank_card_model.dart';
+import 'package:custom_flutter/feature/bank_card/test_root/constants.dart';
+import 'package:custom_flutter/feature/bank_card/test_root/widgets/add_card.dart';
+import 'package:custom_flutter/feature/bank_card/test_root/widgets/bank_card.dart';
+import 'package:custom_flutter/feature/bank_card/test_root/widgets/profile_section.dart';
 import 'package:flutter/material.dart';
 
 class Test1 extends StatefulWidget {
@@ -83,7 +83,7 @@ class Test1State extends State<Test1> {
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: Colors.red,
                   borderRadius: BorderRadius.circular(
                     pageClamp * Constants.radius,
                   ),
@@ -111,21 +111,19 @@ class Test1State extends State<Test1> {
             right: 0,
             child: PageView(
               controller: _pg,
-              children: cards
-                  .map(
-                    (e) => e == null
-                        ? const SizedBox.shrink()
-                        : Transform.translate(
-                            offset: Offset(
-                              page < 1 ? (1 - pageClamp) * 50 : 0,
-                              0,
-                            ),
-                            child: BankCard(
-                              bankCard: e,
-                            ),
-                          ),
-                  )
-                  .toList(),
+              children: List.generate(cards.length, (index) {
+                final item = cards[index];
+
+                if (item == null) return const SizedBox.shrink();
+
+                return Transform.translate(
+                  offset: Offset(
+                    page < 1 ? (1 - pageClamp) * 50 : 0,
+                    0,
+                  ),
+                  child: BankCard(bankCard: item),
+                );
+              }),
             ),
           ),
 
@@ -137,6 +135,7 @@ class Test1State extends State<Test1> {
             left: (size.width * .1 - verPos).clamp(0, double.infinity),
             right: (size.width * .1 - verPos).clamp(0, double.infinity),
             bottom: size.height * .75 - verPos,
+            // bottom: size.height * .75 - verPos,
             child: AnimatedSwitcher(
               switchInCurve: Curves.easeOut,
               switchOutCurve: Curves.easeIn,

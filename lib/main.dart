@@ -1,7 +1,5 @@
 import 'package:custom_flutter/feature/index.dart';
-import 'package:custom_flutter/testModel/test.dart';
 import 'package:custom_flutter/test.dart';
-// import 'package:custom_flutter/test.dart';
 import 'package:flutter/material.dart';
 
 import 'package:custom_flutter/sliver_app_bar/index.dart';
@@ -68,6 +66,7 @@ class MainApp extends StatelessWidget {
       RotateNagativePage(),
       ScrollVerticalScale(),
       Tinder(),
+      BankCard()
     ];
 
     ///
@@ -81,68 +80,70 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const _DropDownButton(
-                listWidgets: sliverAppBar,
-                title: "Sliver App Bar",
-              ),
-              const _DropDownButton(
-                listWidgets: pageTransition,
-                title: "Page Transition",
-              ),
-              const _DropDownButton(
-                listWidgets: dragAbleScrollableSheet,
-                title: "Drag scroll sheet",
-              ),
-              const _DropDownButton(
-                listWidgets: bottomNavigationBar,
-                title: "Bottom Navigation Bar",
-              ),
-              const _DropDownButton(
-                listWidgets: listAnimation,
-                title: "Check",
-              ),
-              const _DropDownButton(
-                listWidgets: feature,
-                title: "feature",
-              ),
-              const _DropDownButton(
-                listWidgets: chipButton,
-                title: "chipButton",
-              ),
-              Builder(
-                builder: (context) => FilledButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Test1()),
-                    );
-                  },
-                  child: const Text("test page"),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const _DropDownButton(
+                  listWidgets: sliverAppBar,
+                  title: "Sliver App Bar",
                 ),
-              ),
-              Builder(
-                builder: (context) => FilledButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Test()),
-                    );
-                  },
-                  child: const Text("test page2"),
+                const _DropDownButton(
+                  listWidgets: pageTransition,
+                  title: "Page Transition",
                 ),
-              ),
-              const Placeholder(),
-              const Placeholder(),
-              const Placeholder(),
-              const Placeholder(),
-            ],
+                const _DropDownButton(
+                  listWidgets: dragAbleScrollableSheet,
+                  title: "Drag scroll sheet",
+                ),
+                const _DropDownButton(
+                  listWidgets: bottomNavigationBar,
+                  title: "Bottom Navigation Bar",
+                ),
+                const _DropDownButton(
+                  listWidgets: listAnimation,
+                  title: "Check",
+                ),
+                const _DropDownButton(
+                  listWidgets: feature,
+                  title: "feature",
+                ),
+                const _DropDownButton(
+                  listWidgets: chipButton,
+                  title: "chipButton",
+                ),
+                // Builder(
+                //   builder: (context) => FilledButton(
+                //     onPressed: () {
+                //       Navigator.push(
+                //         context,
+                //         MaterialPageRoute(builder: (context) => const Test1()),
+                //       );
+                //     },
+                //     child: const Text("test page"),
+                //   ),
+                // ),
+                Builder(
+                  builder: (context) => FilledButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Test()),
+                      );
+                    },
+                    child: const Text("test page2"),
+                  ),
+                ),
+                const Placeholder(),
+                const Placeholder(),
+                const Placeholder(),
+                const Placeholder(),
+              ],
+            ),
           ),
         ),
-      )),
+        // bottomNavigationBar: const Stack(),
+      ),
     );
   }
 }

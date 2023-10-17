@@ -1,5 +1,4 @@
-import 'dart:ui';
-import 'package:custom_flutter/testModel/constants.dart';
+import 'package:custom_flutter/feature/bank_card/test_root/constants.dart';
 import 'package:flutter/material.dart';
 
 class ProfileSection extends StatelessWidget {
@@ -26,8 +25,10 @@ class ProfileSection extends StatelessWidget {
               children: [
                 Center(child: buildHeader(context)),
                 Opacity(
-                  opacity: lerpDouble(0.0, 1.0,
-                      verticalPos / MediaQuery.of(context).size.height)!,
+                  opacity: (verticalPos / MediaQuery.of(context).size.height)
+                      .clamp(0.0, 1.0),
+                  // opacity: lerpDouble(0.0, 1.0,
+                  //     verticalPos / MediaQuery.of(context).size.height)!,
                   // duration: const Duration(milliseconds: 300),
                   child: verticalPos > 250
                       ? Center(
@@ -196,7 +197,7 @@ class ProfileSection extends StatelessWidget {
             vertical: Constants.padding,
           ),
           decoration: BoxDecoration(
-            color: Colors.blueGrey.shade800,
+            color: Colors.red,
             borderRadius: BorderRadius.circular(Constants.radius),
           ),
         )

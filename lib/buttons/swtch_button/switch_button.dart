@@ -28,7 +28,7 @@ class _SwitchButtonState extends State<SwitchButton> {
           textSize: 16.0,
           onChanged: (bool state) {
             //Use it to manage the different states
-            print('Current State of SWITCH IS: $state');
+            // print('Current State of SWITCH IS: $state');
           },
         ),
       ),

@@ -1,5 +1,5 @@
-import 'package:custom_flutter/testModel/bank_card_model.dart';
-import 'package:custom_flutter/testModel/constants.dart';
+import 'package:custom_flutter/feature/bank_card/test_root/bank_card_model.dart';
+import 'package:custom_flutter/feature/bank_card/test_root/constants.dart';
 import 'package:flutter/material.dart';
 
 class BankCard extends StatelessWidget {
@@ -45,7 +45,7 @@ class BankCard extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .headlineMedium!
-                    .copyWith(color: Colors.white),
+                    .copyWith(color: Colors.red),
               )
             ],
           ),
