@@ -18,3 +18,5 @@ export './scroll_vertical_scale/scroll_vertical_scale.dart';
 export './tinder/tinder.dart';
 
 export './bank_card/bank_card.dart';
+
+export './limit_drag/limit_drag.dart';

@@ -66,7 +66,8 @@ class MainApp extends StatelessWidget {
       RotateNagativePage(),
       ScrollVerticalScale(),
       Tinder(),
-      BankCard()
+      BankCard(),
+      LimitDrag()
     ];
 
     ///
