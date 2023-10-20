@@ -20,3 +20,5 @@ export './tinder/tinder.dart';
 export './bank_card/bank_card.dart';
 
 export './limit_drag/limit_drag.dart';
+export './drag_change_parallax/drag_change.dart';
+export './drag_music/drag_horizontal_music.dart';

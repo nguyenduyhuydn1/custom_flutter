@@ -1,3 +1,4 @@
+import 'package:custom_flutter/feature/get_box_offset.dart';
 import 'package:flutter/material.dart';
 
 class LimitDrag extends StatefulWidget {
@@ -18,36 +19,65 @@ class _LimitDragState extends State<LimitDrag> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    print(size.width);
 
     return Scaffold(
-      body: ValueListenableBuilder(
-        valueListenable: offsets,
-        builder: (context, value, child) {
-          print(value);
-          return GestureDetector(
-            onHorizontalDragUpdate: (details) {
-              final calwidth = (size.width - 100) / 2;
+      body: Container(
+        color: Colors.blue,
+        child: ValueListenableBuilder(
+          valueListenable: offsets,
+          builder: (context, value, child) {
+            // print(value);
+            return GestureDetector(
+              onHorizontalDragUpdate: (details) {
+                //middle
+                // final calwidth = (size.width - 100) / 2;
+                // if (details.primaryDelta! > 0) {
+                //   if (offsets.value >= calwidth) return;
+                // } else {
+                //   if (offsets.value <= -calwidth) return;
+                // }
 
-              if (details.primaryDelta! > 0) {
-                if (offsets.value >= calwidth) return;
-              } else {
-                if (offsets.value <= -calwidth) return;
-              }
-              offsets.value += details.primaryDelta!;
-            },
-            child: Transform.translate(
-              offset: Offset(value, 0.0),
+                //block left
+                final calwidth = (size.width - 100);
+                if (details.primaryDelta! > 0) {
+                  if (offsets.value >= calwidth) return;
+                } else {
+                  if (offsets.value <= 0) return;
+                }
+
+                //block right
+                // final calwidth = (size.width - 100);
+                // if (details.primaryDelta! < 0) {
+                //   if (offsets.value <= -calwidth) return;
+                // } else {
+                //   if (offsets.value >= 0) return;
+                // }
+
+                offsets.value += details.primaryDelta!;
+              },
               child: Center(
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.red,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Transform.translate(
+                      offset: Offset(value, 0.0),
+                      child: GetBoxOffset(
+                        offset: (offset, box) {
+                          // print(offset.dx);
+                        },
+                        child: Container(
+                          width: 100,
+                          height: 100,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

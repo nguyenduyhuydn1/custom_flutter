@@ -31,3 +31,5 @@ flutter:
     - assets/boats/
     - assets/pizza/
     - assets/bank_card/
+    - assets/parallax_effect/
+    - assets/drag_music/

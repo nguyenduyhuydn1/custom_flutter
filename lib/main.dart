@@ -1,5 +1,6 @@
 import 'package:custom_flutter/feature/index.dart';
 import 'package:custom_flutter/test.dart';
+import 'package:custom_flutter/test2.dart';
 import 'package:flutter/material.dart';
 
 import 'package:custom_flutter/sliver_app_bar/index.dart';
@@ -22,8 +23,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     const sliverAppBar = [
       AdvancedSliverAppbar(),
-      BasicSliverAppBar(),
-      TabbarSliverAppbar(),
+      // BasicSliverAppBar(),
+      // TabbarSliverAppbar(),
     ];
 
     const pageTransition = [
@@ -36,20 +37,20 @@ class MainApp extends StatelessWidget {
 
     const bottomNavigationBar = [
       AnimationBorderTopNavigation(),
-      AnimationNavigation(),
-      AnimationScale(),
-      BasicBottomNavigationBar(),
-      MultipleAnimation(),
-      PageViewBottomNavigationBar(),
+      // AnimationNavigation(),
+      // AnimationScale(),
+      // BasicBottomNavigationBar(),
+      // MultipleAnimation(),
+      // PageViewBottomNavigationBar(),
       TabBottonNavigationBar(),
     ];
 
     /////////////////////////// check
     const listAnimation = [
       AnimationSlide(),
-      Card1(),
-      ShowModalBottomSheet(),
-      CustomTextFormField(),
+      // Card1(),
+      // ShowModalBottomSheet(),
+      // CustomTextFormField(),
     ];
 
     ///
@@ -57,17 +58,19 @@ class MainApp extends StatelessWidget {
     /////////////////////////// feature
     const feature = [
       ClickScroll(),
-      ScrollMove(),
-      AnimationCoffe(),
-      Boats(),
-      Pizza(),
-      AnimationScroll3D(),
-      ScrollRotateSwapPosition(),
-      RotateNagativePage(),
-      ScrollVerticalScale(),
-      Tinder(),
-      BankCard(),
-      LimitDrag()
+      // ScrollMove(),
+      // AnimationCoffe(),
+      // Boats(),
+      // Pizza(),
+      // AnimationScroll3D(),
+      // ScrollRotateSwapPosition(),
+      // RotateNagativePage(),
+      // ScrollVerticalScale(),
+      // Tinder(),
+      // BankCard(),
+      // LimitDrag(),
+      // DragChange(),
+      DragHorizontalMusic(),
     ];
 
     ///
@@ -113,17 +116,17 @@ class MainApp extends StatelessWidget {
                   listWidgets: chipButton,
                   title: "chipButton",
                 ),
-                // Builder(
-                //   builder: (context) => FilledButton(
-                //     onPressed: () {
-                //       Navigator.push(
-                //         context,
-                //         MaterialPageRoute(builder: (context) => const Test1()),
-                //       );
-                //     },
-                //     child: const Text("test page"),
-                //   ),
-                // ),
+                Builder(
+                  builder: (context) => FilledButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Test2()),
+                      );
+                    },
+                    child: const Text("test page"),
+                  ),
+                ),
                 Builder(
                   builder: (context) => FilledButton(
                     onPressed: () {
