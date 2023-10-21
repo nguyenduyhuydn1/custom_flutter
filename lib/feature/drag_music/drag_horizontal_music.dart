@@ -73,10 +73,26 @@ class _DragHorizontalMusicState extends State<DragHorizontalMusic>
             animation: Listenable.merge([_controller, _opacity, _moveDown]),
             builder: (context, child) {
               // -145 do
-              // final deg = (-145.0 * pi) / 180;
+              const deg = (-45 * pi) / 180;
               final widthBgHome = size.width + 200;
-              final centerPosWithHeightWidth =
-                  (size.width / 2) - (widthBgHome / 2);
+
+              // caculator right
+              final centerPosWithHeightWidthRight =
+                  ((size.width + widthNav) / 2) - (widthBgHome / 2);
+              final centerPosWithHeightWidthLeft =
+                  ((size.width - widthNav) / 2) - ((widthBgHome) / 2);
+
+              // caculator move d
+              final triangleFormula = 1 / (sqrt(2) / 2);
+              final halfWidthNoNavBar = (size.width - widthNav) / 2;
+
+              final hypotenuse = halfWidthNoNavBar * triangleFormula;
+
+              final mh = sqrt(
+                pow(hypotenuse / 2, 2) +
+                    pow(halfWidthNoNavBar, 2) -
+                    (halfWidthNoNavBar * hypotenuse * (sqrt(2) / 2)),
+              );
 
               return Stack(fit: StackFit.expand, children: [
                 //main image
@@ -88,62 +104,52 @@ class _DragHorizontalMusicState extends State<DragHorizontalMusic>
                       fit: BoxFit.cover,
                       alignment: Alignment(lerp(0.0, 2.0), 0),
                     ),
+
                     Positioned(
-                      top: -200.0,
-                      left: lerp(centerPosWithHeightWidth,
-                          centerPosWithHeightWidth - 60),
+                      top: 0,
+                      left: lerp(centerPosWithHeightWidthLeft,
+                          centerPosWithHeightWidthLeft - 60),
+                      width: widthBgHome,
                       child: Transform(
-                        alignment: Alignment.center,
+                        alignment: Alignment.topCenter,
                         transform: Matrix4.identity()
-                          ..rotateZ((-45 * pi) / 180)
+                          ..rotateZ(deg)
                           ..translate(
-                            lerpDouble(-85.0, 0, _moveDown.value),
-                            lerpDouble(0.0, -120.0, _moveDown.value)!,
+                            -hypotenuse / 2,
+                            lerpDouble(-mh, -mh - 420, _moveDown.value)!,
                           ),
-                        // ..translate(
-                        //   lerpDouble(-85.0, 124, _moveDown.value),
-                        //   0.0,
-                        // ),
-                        child: Container(
-                          height: 50,
-                          width: widthBgHome,
-                          color: const Color.fromARGB(255, 167, 182, 239),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: -127,
-                      left: lerp(centerPosWithHeightWidth,
-                          centerPosWithHeightWidth - 60),
-                      child: Transform(
-                        alignment: Alignment.center,
-                        transform: Matrix4.identity()
-                          ..rotateZ((-45 * pi) / 180)
-                          ..translate(
-                            lerpDouble(-65.0, 0, _moveDown.value),
-                            lerpDouble(0.0, -120.0, _moveDown.value)!,
-                          ),
-                        child: Container(
-                          height: 60,
-                          width: widthBgHome,
-                          color: const Color.fromARGB(218, 255, 255, 255),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 50,
+                              color: const Color.fromARGB(255, 167, 182, 239),
+                            ),
+                            Container(
+                              height: 60,
+                              color: const Color.fromARGB(218, 255, 255, 255),
+                            )
+                          ],
                         ),
                       ),
                     ),
 
                     // center 1 widget trong positioned
                     // (size.width / 2) - (widthBgHome / 2)
+                    // tinh middle tamgiac canh huyen ((size.width / 2) * 1 / (sqrt(2) / 2)) / 2
+                    //vao github de coi chi tiet
                     Positioned(
-                      bottom: -65,
-                      right: lerp(centerPosWithHeightWidth,
-                          centerPosWithHeightWidth + 60),
+                      bottom: 0,
+                      right: lerp(centerPosWithHeightWidthRight,
+                          centerPosWithHeightWidthRight + 60),
+                      height: 270,
+                      width: widthBgHome,
                       child: Transform(
-                        alignment: Alignment.center,
+                        alignment: Alignment.bottomCenter,
                         transform: Matrix4.identity()
-                          ..rotateZ((-45 * pi) / 180)
+                          ..rotateZ(deg)
                           ..translate(
-                            35.0,
-                            lerpDouble(0.0, 250.0, _moveDown.value)!,
+                            hypotenuse / 2,
+                            lerpDouble(mh + 20, mh + 420, _moveDown.value)!,
                           ),
                         child: SizedBox(
                           height: 250,
@@ -230,19 +236,7 @@ class _DragHorizontalMusicState extends State<DragHorizontalMusic>
                           ),
                         ),
                       ),
-                    ),
-
-                    // Positioned(
-                    //   bottom: 0,
-                    //   right: lerp(widthNav, widthNav + 60),
-                    //   child: CustomPaint(
-                    //     foregroundPainter: TriangleClipper(),
-                    //     child: SizedBox(
-                    //       height: size.width - widthNav - 40,
-                    //       width: size.width - widthNav - 40,
-                    //     ),
-                    //   ),
-                    // ),
+                    )
                   ],
                 ),
 
@@ -488,26 +482,27 @@ class DrawLine extends CustomPainter {
   bool shouldRepaint(DrawLine oldDelegate) => oldDelegate.dy1 != dy1;
 }
 
-class TriangleClipper extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = const Color.fromARGB(255, 173, 186, 242);
-    // final paint = Paint();
-    final h = size.height;
-    final w = size.width;
+// class TriangleClipper extends CustomPainter {
+//   @override
+//   void paint(Canvas canvas, Size size) {
+//     final paint = Paint()..color = const Color.fromARGB(255, 173, 186, 242);
+//     // final paint = Paint();
+//     final h = size.height;
+//     final w = size.width;
 
-    final path = Path()
-      ..moveTo(0, h)
-      ..lineTo(w, 0)
-      ..lineTo(w, h);
-    path.close();
+//     final path = Path()
+//       ..moveTo(0, h)
+//       ..lineTo(w, 0)
+//       ..lineTo(w, h);
+//     path.close();
 
-    canvas.drawPath(path, paint);
-  }
+//     canvas.drawPath(path, paint);
+//   }
 
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
+//   @override
+//   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+// }
+
 // class TriangleClipper extends CustomClipper<Path> {
 //   @override
 //   Path getClip(Size size) {
