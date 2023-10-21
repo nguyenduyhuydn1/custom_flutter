@@ -132,7 +132,7 @@ class _DragHorizontalMusicState extends State<DragHorizontalMusic>
                     ),
 
                     // center 1 widget trong positioned
-                    // (size.width / 2) - ((size.width + 200) / 2)
+                    // (size.width / 2) - (widthBgHome / 2)
                     Positioned(
                       bottom: -65,
                       right: lerp(centerPosWithHeightWidth,

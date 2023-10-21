@@ -82,6 +82,7 @@ class MainApp extends StatelessWidget {
 
     ///
     return MaterialApp(
+      // showPerformanceOverlay: true,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SafeArea(
