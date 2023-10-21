@@ -19,11 +19,20 @@ class _DragHorizontalMusicState extends State<DragHorizontalMusic>
 
   final String imageAssets = 'assets/drag_music/drag_music.jpg';
   final double widthNav = 90.0;
-  final List<Icon> listIcon = [
-    const Icon(Icons.home, size: 30),
-    const Icon(Icons.cloud, size: 30),
-    const Icon(Icons.headphones, size: 30),
-    const Icon(Icons.calendar_month, size: 30),
+  final duration = const Duration(milliseconds: 300);
+
+  final List<_ItemIcon> listIcon = [
+    const _ItemIcon(icon: Icons.home),
+    const _ItemIcon(icon: Icons.cloud),
+    const _ItemIcon(icon: Icons.headphones),
+    const _ItemIcon(icon: Icons.calendar_month),
+  ];
+
+  final List<IconData> iconsHome = [
+    Icons.search,
+    Icons.camera_alt_outlined,
+    Icons.messenger_outline,
+    Icons.phone_android_outlined,
   ];
 
   double lerp(double min, double max) =>
@@ -36,11 +45,11 @@ class _DragHorizontalMusicState extends State<DragHorizontalMusic>
   void initState() {
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
+      duration: duration,
     );
     _opacity = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
+      duration: duration,
     );
     _move = AnimationController(
       vsync: this,
@@ -72,7 +81,12 @@ class _DragHorizontalMusicState extends State<DragHorizontalMusic>
         child: AnimatedBuilder(
             animation: Listenable.merge([_controller, _opacity, _moveDown]),
             builder: (context, child) {
-              // -145 do
+              // center 1 widget trong positioned
+              // (size.width / 2) - (widthBgHome / 2)
+              // tinh middle tamgiac canh huyen ((size.width / 2) * 1 / (sqrt(2) / 2)) / 2
+              //vao github de coi chi tiet
+
+              // -45 do
               const deg = (-45 * pi) / 180;
               final widthBgHome = size.width + 200;
 
@@ -96,149 +110,91 @@ class _DragHorizontalMusicState extends State<DragHorizontalMusic>
 
               return Stack(fit: StackFit.expand, children: [
                 //main image
-                Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Image.asset(
-                      imageAssets,
-                      fit: BoxFit.cover,
-                      alignment: Alignment(lerp(0.0, 2.0), 0),
-                    ),
-
-                    Positioned(
-                      top: 0,
-                      left: lerp(centerPosWithHeightWidthLeft,
-                          centerPosWithHeightWidthLeft - 60),
-                      width: widthBgHome,
-                      child: Transform(
-                        alignment: Alignment.topCenter,
-                        transform: Matrix4.identity()
-                          ..rotateZ(deg)
-                          ..translate(
-                            -hypotenuse / 2,
-                            lerpDouble(-mh, -mh - 420, _moveDown.value)!,
-                          ),
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 50,
-                              color: const Color.fromARGB(255, 167, 182, 239),
-                            ),
-                            Container(
-                              height: 60,
-                              color: const Color.fromARGB(218, 255, 255, 255),
-                            )
-                          ],
+                Stack(fit: StackFit.expand, children: [
+                  Image.asset(
+                    imageAssets,
+                    fit: BoxFit.cover,
+                    alignment: Alignment(lerp(0.0, 2.0), 0),
+                  ),
+                  Positioned(
+                    top: 0,
+                    left: lerp(centerPosWithHeightWidthLeft,
+                        centerPosWithHeightWidthLeft - 60),
+                    width: widthBgHome,
+                    child: Transform(
+                      alignment: Alignment.topCenter,
+                      transform: Matrix4.identity()
+                        ..rotateZ(deg)
+                        ..translate(
+                          -hypotenuse / 2,
+                          lerpDouble(-mh, -mh - 420, _moveDown.value)!,
                         ),
-                      ),
+                      child: Column(children: [
+                        Container(
+                          height: 50,
+                          color: const Color.fromARGB(255, 167, 182, 239),
+                        ),
+                        Container(
+                          height: 60,
+                          color: const Color.fromARGB(218, 255, 255, 255),
+                        )
+                      ]),
                     ),
-
-                    // center 1 widget trong positioned
-                    // (size.width / 2) - (widthBgHome / 2)
-                    // tinh middle tamgiac canh huyen ((size.width / 2) * 1 / (sqrt(2) / 2)) / 2
-                    //vao github de coi chi tiet
-                    Positioned(
-                      bottom: 0,
-                      right: lerp(centerPosWithHeightWidthRight,
-                          centerPosWithHeightWidthRight + 60),
-                      height: 270,
-                      width: widthBgHome,
-                      child: Transform(
-                        alignment: Alignment.bottomCenter,
-                        transform: Matrix4.identity()
-                          ..rotateZ(deg)
-                          ..translate(
-                            hypotenuse / 2,
-                            lerpDouble(mh + 20, mh + 420, _moveDown.value)!,
-                          ),
-                        child: SizedBox(
-                          height: 250,
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: lerp(centerPosWithHeightWidthRight,
+                        centerPosWithHeightWidthRight + 60),
+                    width: widthBgHome,
+                    child: Transform(
+                      alignment: Alignment.bottomCenter,
+                      transform: Matrix4.identity()
+                        ..rotateZ(deg)
+                        ..translate(
+                          hypotenuse / 2,
+                          lerpDouble(mh, mh + 420, _moveDown.value)!,
+                        ),
+                      child: Column(children: [
+                        Container(
+                          color: const Color.fromARGB(68, 0, 0, 0),
+                          height: 60,
                           width: widthBgHome,
-                          child: Column(
-                            children: [
-                              Container(
-                                color: const Color.fromARGB(68, 0, 0, 0),
-                                height: 60,
-                                width: widthBgHome,
-                                child: const Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20.0),
-                                      child: Icon(
-                                        Icons.search,
-                                        size: 35,
-                                        color:
-                                            Color.fromARGB(216, 255, 255, 255),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20.0),
-                                      child: Icon(
-                                        Icons.camera_alt_outlined,
-                                        size: 35,
-                                        color:
-                                            Color.fromARGB(216, 255, 255, 255),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20.0),
-                                      child: Icon(
-                                        Icons.messenger_outline,
-                                        size: 35,
-                                        color:
-                                            Color.fromARGB(216, 255, 255, 255),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20.0),
-                                      child: Icon(
-                                        Icons.phone_android_outlined,
-                                        size: 35,
-                                        color:
-                                            Color.fromARGB(216, 255, 255, 255),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                height: 250 - 60,
-                                color: const Color.fromARGB(255, 173, 186, 242),
-                                child: const Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    Text(
-                                      "Monday",
-                                      style: TextStyle(
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 35,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Oct.12th",
-                                      style: TextStyle(
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 25,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(iconsHome.length, (index) {
+                              final item = iconsHome[index];
+                              return _ItemIcon(icon: item);
+                            }),
                           ),
                         ),
-                      ),
-                    )
-                  ],
-                ),
+                        Container(
+                          width: double.infinity,
+                          height: 200,
+                          color: const Color.fromARGB(255, 173, 186, 242),
+                          child: const Column(children: [
+                            SizedBox(height: 20),
+                            Text(
+                              "Monday",
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 35,
+                              ),
+                            ),
+                            Text(
+                              "Oct.12th",
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w300,
+                                fontSize: 25,
+                              ),
+                            ),
+                          ]),
+                        )
+                      ]),
+                    ),
+                  )
+                ]),
 
                 //side image
                 Positioned(
@@ -289,6 +245,7 @@ class _DragHorizontalMusicState extends State<DragHorizontalMusic>
                             filter:
                                 ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
                             child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 30),
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
@@ -306,109 +263,87 @@ class _DragHorizontalMusicState extends State<DragHorizontalMusic>
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const SizedBox(
-                                      child: Column(children: [
-                                        SizedBox(height: 20),
-                                        CircleAvatar(
-                                          child: Icon(Icons.person_2),
+                                    const Column(children: [
+                                      CircleAvatar(child: Icon(Icons.person_2)),
+                                      SizedBox(height: 50),
+                                      _RotateBox(
+                                        child: Text(
+                                          "24:00",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 45,
+                                            fontWeight: FontWeight.w300,
+                                          ),
                                         ),
-                                        SizedBox(height: 50),
-                                        _RotateBox(
-                                          child: Text(
-                                            "24:00",
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 45,
-                                              fontWeight: FontWeight.w300,
+                                      )
+                                    ]),
+                                    Stack(children: [
+                                      Opacity(
+                                        opacity: lerp(0.0, 1.0),
+                                        child: const Column(children: [
+                                          SizedBox(height: 100),
+                                          _ItemIcon(
+                                            icon: Icons.cloud,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(height: 10),
+                                          _ItemIcon(
+                                            icon: Icons
+                                                .pause_presentation_outlined,
+                                            color: Colors.white,
+                                          ),
+                                        ]),
+                                      ),
+                                      Opacity(
+                                        opacity: lerp(1.0, 0.0),
+                                        child: TweenAnimationBuilder(
+                                            tween: Tween(
+                                              begin: 65.0 * currentIndex,
+                                              end: 65.0 * currentIndex,
                                             ),
-                                          ),
-                                        )
-                                      ]),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 50,
-                                      ),
-                                      child: Stack(
-                                        children: [
-                                          Opacity(
-                                            opacity: lerp(0.0, 1.0),
-                                            child: const Column(children: [
-                                              SizedBox(height: 100),
-                                              Icon(
-                                                Icons.cloud,
-                                                size: 50,
-                                                color: Colors.white,
-                                              ),
-                                              SizedBox(height: 10),
-                                              Icon(
-                                                Icons
-                                                    .pause_presentation_outlined,
-                                                size: 50,
-                                                color: Colors.white,
-                                              ),
-                                            ]),
-                                          ),
-                                          Opacity(
-                                            opacity: lerp(1.0, 0.0),
-                                            child: TweenAnimationBuilder(
-                                                tween: Tween(
-                                                  begin: 70.0 * currentIndex,
-                                                  end: 70.0 * currentIndex,
+                                            duration: duration,
+                                            builder: (context, value, child) {
+                                              final dy1 = value + 23;
+                                              final dy2 = value + 43;
+                                              final totalHeight =
+                                                  currentIndex * 65.0 + 43;
+
+                                              return CustomPaint(
+                                                foregroundPainter: DrawLine(
+                                                  dy1: dy1,
+                                                  dy2: dy2,
+                                                  totalHeight: totalHeight,
                                                 ),
-                                                duration: const Duration(
-                                                    milliseconds: 300),
-                                                builder:
-                                                    (context, value, child) {
-                                                  return CustomPaint(
-                                                    foregroundPainter: DrawLine(
-                                                      dy1: value + 25,
-                                                      dy2: value + 45,
-                                                      totalHeight:
-                                                          70.0 * currentIndex,
-                                                    ),
-                                                    child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          ...List.generate(
-                                                              listIcon.length,
-                                                              (index) {
-                                                            final item =
-                                                                listIcon[index];
-                                                            return GestureDetector(
-                                                              onTap: () {
-                                                                if (index ==
-                                                                    1) {
-                                                                  _move
-                                                                      .forward();
-                                                                } else {
-                                                                  _move
-                                                                      .reverse();
-                                                                }
-                                                                setState(() {
-                                                                  currentIndex =
-                                                                      index;
-                                                                });
-                                                              },
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .symmetric(
-                                                                  vertical: 20,
-                                                                ),
-                                                                child: item,
-                                                              ),
-                                                            );
-                                                          }),
-                                                        ]),
-                                                  );
-                                                }),
-                                          ),
-                                        ],
-                                      ),
-                                    )
+                                                child: Column(
+                                                  children: List.generate(
+                                                      listIcon.length, (index) {
+                                                    final item =
+                                                        listIcon[index];
+                                                    return GestureDetector(
+                                                      onTap: () {
+                                                        if (index == 1) {
+                                                          _move.forward();
+                                                        } else {
+                                                          _move.reverse();
+                                                        }
+                                                        setState(() {
+                                                          currentIndex = index;
+                                                        });
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical: 15),
+                                                        child: item,
+                                                      ),
+                                                    );
+                                                  }),
+                                                ),
+                                              );
+                                            }),
+                                      )
+                                    ])
                                   ]),
                             ),
                           ),
@@ -435,6 +370,28 @@ class _DragHorizontalMusicState extends State<DragHorizontalMusic>
   }
 }
 
+class _ItemIcon extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+
+  const _ItemIcon({
+    required this.icon,
+    this.color = const Color.fromARGB(216, 255, 255, 255),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Icon(
+        icon,
+        size: 35,
+        color: color,
+      ),
+    );
+  }
+}
+
 class _RotateBox extends StatelessWidget {
   final Widget child;
   const _RotateBox({required this.child});
@@ -450,7 +407,7 @@ class DrawLine extends CustomPainter {
     required this.dy2,
     required this.dy1,
     required this.totalHeight,
-  }) : super();
+  });
   // }) : _dy1 = dy1;
 
   final double dy1;
@@ -459,21 +416,21 @@ class DrawLine extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    double a = dy2 / (totalHeight + 45);
+    double a = dy2 / totalHeight;
 
-    if (dy2 < (totalHeight + 45)) {
-      a = dy2 / (totalHeight + 45);
+    if (dy2 < totalHeight) {
+      a = dy2 / totalHeight;
     }
-    if (dy2 >= (totalHeight + 45)) {
-      a = (totalHeight + 45) / dy2;
+    if (dy2 >= totalHeight) {
+      a = totalHeight / dy2;
     }
 
     final paint = Paint()
       ..strokeWidth = 4
       ..color = Color.fromARGB(lerpDouble(0, 255, a)!.toInt(), 85, 108, 126);
 
-    final p1 = Offset(45, dy1);
-    final p2 = Offset(45, dy2);
+    final p1 = Offset(70, dy1);
+    final p2 = Offset(70, dy2);
 
     canvas.drawLine(p1, p2, paint);
   }
