@@ -438,39 +438,3 @@ class DrawLine extends CustomPainter {
   @override
   bool shouldRepaint(DrawLine oldDelegate) => oldDelegate.dy1 != dy1;
 }
-
-// class TriangleClipper extends CustomPainter {
-//   @override
-//   void paint(Canvas canvas, Size size) {
-//     final paint = Paint()..color = const Color.fromARGB(255, 173, 186, 242);
-//     // final paint = Paint();
-//     final h = size.height;
-//     final w = size.width;
-
-//     final path = Path()
-//       ..moveTo(0, h)
-//       ..lineTo(w, 0)
-//       ..lineTo(w, h);
-//     path.close();
-
-//     canvas.drawPath(path, paint);
-//   }
-
-//   @override
-//   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-// }
-
-// class TriangleClipper extends CustomClipper<Path> {
-//   @override
-//   Path getClip(Size size) {
-//     final path = Path();
-//     path.moveTo(0, size.height);
-//     path.lineTo(size.width, 0);
-//     path.lineTo(size.width, size.height);
-//     path.close();
-//     return path;
-//   }
-
-//   @override
-//   bool shouldReclip(TriangleClipper oldClipper) => true;
-// }
