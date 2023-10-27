@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:custom_flutter/testModel/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +7,6 @@ class Test2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HomePage();
+    return FadeInRight(child: const HomePage());
   }
 }
