@@ -8,3 +8,4 @@ export './components/animation_border_top_navigation.dart';
 export './components/multiple_animation.dart';
 
 export './components/animation_scale.dart';
+export './components/bn1.dart';

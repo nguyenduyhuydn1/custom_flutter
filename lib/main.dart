@@ -1,3 +1,4 @@
+import 'package:custom_flutter/buttons/index.dart';
 import 'package:custom_flutter/feature/index.dart';
 import 'package:custom_flutter/test.dart';
 import 'package:custom_flutter/test2.dart';
@@ -36,13 +37,14 @@ class MainApp extends StatelessWidget {
     ];
 
     const bottomNavigationBar = [
-      AnimationBorderTopNavigation(),
+      // AnimationBorderTopNavigation(),
       // AnimationNavigation(),
       // AnimationScale(),
       // BasicBottomNavigationBar(),
       // MultipleAnimation(),
       // PageViewBottomNavigationBar(),
-      TabBottonNavigationBar(),
+      // TabBottonNavigationBar(),
+      Bn1(),
     ];
 
     /////////////////////////// check
@@ -57,27 +59,29 @@ class MainApp extends StatelessWidget {
 
     /////////////////////////// feature
     const feature = [
-      ClickScroll(),
-      ScrollMove(),
-      AnimationCoffe(),
-      Boats(),
-      Pizza(),
-      AnimationScroll3D(),
-      ScrollRotateSwapPosition(),
-      RotateNagativePage(),
-      ScrollVerticalScale(),
-      Tinder(),
-      BankCard(),
-      LimitDrag(),
-      DragChange(),
+      // ClickScroll(),
+      // ScrollMove(),
+      // AnimationCoffe(),
+      // Boats(),
+      // Pizza(),
+      // AnimationScroll3D(),
+      // ScrollRotateSwapPosition(),
+      // RotateNagativePage(),
+      // ScrollVerticalScale(),
+      // Tinder(),
+      // BankCard(),
+      // LimitDrag(),
+      // DragChange(),
       DragHorizontalMusic(),
     ];
 
     ///
 
-    /////////////////////////// Chip Button
-    const chipButton = [
+    /////////////////////////// Chip Button and buttons
+    const button = [
       ChipButton(),
+      SwitchButton(),
+      SwitchBtn2(),
     ];
 
     ///
@@ -114,8 +118,8 @@ class MainApp extends StatelessWidget {
                   title: "feature",
                 ),
                 const _DropDownButton(
-                  listWidgets: chipButton,
-                  title: "chipButton",
+                  listWidgets: button,
+                  title: "Button",
                 ),
                 Builder(
                   builder: (context) => FilledButton(
