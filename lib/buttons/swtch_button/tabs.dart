@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Test extends StatefulWidget {
-  const Test({super.key});
+class Tab2 extends StatefulWidget {
+  const Tab2({super.key});
 
   @override
-  State<Test> createState() => _TestState();
+  State<Tab2> createState() => _Tab2State();
 }
 
-class _TestState extends State<Test> with SingleTickerProviderStateMixin {
+class _Tab2State extends State<Tab2> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List<Tab> icons = const [
     Tab(icon: Icon(Icons.search)),

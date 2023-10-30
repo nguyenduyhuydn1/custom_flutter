@@ -25,7 +25,7 @@ class MainApp extends StatelessWidget {
     const sliverAppBar = [
       AdvancedSliverAppbar(),
       // BasicSliverAppBar(),
-      // TabbarSliverAppbar(),
+      TabbarSliverAppbar(),
     ];
 
     const pageTransition = [
@@ -77,11 +77,12 @@ class MainApp extends StatelessWidget {
 
     ///
 
-    /////////////////////////// Chip Button and buttons
+    /////////////////////////// Chip Button, buttons and tabs
     const button = [
       ChipButton(),
       SwitchButton(),
       SwitchBtn2(),
+      Tab2(),
     ];
 
     ///
