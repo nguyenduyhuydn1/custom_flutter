@@ -24,7 +24,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     const sliverAppBar = [
       AdvancedSliverAppbar(),
-      // BasicSliverAppBar(),
+      BasicSliverAppBar(),
       TabbarSliverAppbar(),
     ];
 
@@ -59,19 +59,19 @@ class MainApp extends StatelessWidget {
 
     /////////////////////////// feature
     const feature = [
-      // ClickScroll(),
-      // ScrollMove(),
-      // AnimationCoffe(),
-      // Boats(),
-      // Pizza(),
-      // AnimationScroll3D(),
-      // ScrollRotateSwapPosition(),
-      // RotateNagativePage(),
-      // ScrollVerticalScale(),
-      // Tinder(),
-      // BankCard(),
-      // LimitDrag(),
-      // DragChange(),
+      ClickScroll(),
+      ScrollMove(),
+      AnimationCoffe(),
+      Boats(),
+      Pizza(),
+      AnimationScroll3D(),
+      ScrollRotateSwapPosition(),
+      RotateNagativePage(),
+      ScrollVerticalScale(),
+      Tinder(),
+      BankCard(),
+      LimitDrag(),
+      DragChange(),
       DragHorizontalMusic(),
     ];
 
@@ -120,7 +120,7 @@ class MainApp extends StatelessWidget {
                 ),
                 const _DropDownButton(
                   listWidgets: button,
-                  title: "Button",
+                  title: "Button + tab",
                 ),
                 Builder(
                   builder: (context) => FilledButton(

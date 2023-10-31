@@ -2,15 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class ScrollRotateSwapPosition extends StatefulWidget {
+class ScrollRotateSwapPosition extends StatelessWidget {
   const ScrollRotateSwapPosition({super.key});
 
-  @override
-  State<ScrollRotateSwapPosition> createState() =>
-      _ScrollRotateSwapPositionState();
-}
-
-class _ScrollRotateSwapPositionState extends State<ScrollRotateSwapPosition> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
