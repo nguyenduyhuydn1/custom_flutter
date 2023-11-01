@@ -1,7 +1,9 @@
 import 'package:custom_flutter/buttons/index.dart';
+import 'package:custom_flutter/circular_progess/circular_progress.dart';
 import 'package:custom_flutter/feature/index.dart';
 import 'package:custom_flutter/test.dart';
 import 'package:custom_flutter/test2.dart';
+import 'package:custom_flutter/time_line/index.dart';
 import 'package:flutter/material.dart';
 
 import 'package:custom_flutter/sliver_app_bar/index.dart';
@@ -85,6 +87,17 @@ class MainApp extends StatelessWidget {
       Tab2(),
     ];
 
+    /////////////////////////// circular progess
+    const circularProgess = [
+      CustomCircularProgress(),
+    ];
+
+    /////////////////////////// timeLine
+    const timeLine = [
+      TimeLineHorizontal(),
+      DelayUntilComplete(),
+    ];
+
     ///
     return MaterialApp(
       // showPerformanceOverlay: true,
@@ -121,6 +134,14 @@ class MainApp extends StatelessWidget {
                 const _DropDownButton(
                   listWidgets: button,
                   title: "Button + tab",
+                ),
+                const _DropDownButton(
+                  listWidgets: circularProgess,
+                  title: "circular progess",
+                ),
+                const _DropDownButton(
+                  listWidgets: timeLine,
+                  title: "Time Line",
                 ),
                 Builder(
                   builder: (context) => FilledButton(

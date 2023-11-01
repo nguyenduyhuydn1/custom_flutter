@@ -29,20 +29,20 @@ class _LimitDragState extends State<LimitDrag> {
             // print(value);
             return GestureDetector(
               onHorizontalDragUpdate: (details) {
-                //middle
-                // final calwidth = (size.width - 100) / 2;
+                //block left
+                // final calwidth = (size.width - 100);
                 // if (details.primaryDelta! > 0) {
                 //   if (offsets.value >= calwidth) return;
                 // } else {
-                //   if (offsets.value <= -calwidth) return;
+                //   if (offsets.value <= 0) return;
                 // }
 
-                //block left
-                final calwidth = (size.width - 100);
+                //middle
+                final calwidth = (size.width - 100) / 2;
                 if (details.primaryDelta! > 0) {
                   if (offsets.value >= calwidth) return;
                 } else {
-                  if (offsets.value <= 0) return;
+                  if (offsets.value <= -calwidth) return;
                 }
 
                 //block right
@@ -57,7 +57,9 @@ class _LimitDragState extends State<LimitDrag> {
               },
               child: Center(
                 child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
+                  // mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Transform.translate(
                       offset: Offset(value, 0.0),
