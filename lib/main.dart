@@ -96,6 +96,7 @@ class MainApp extends StatelessWidget {
     const timeLine = [
       TimeLineHorizontal(),
       DelayUntilComplete(),
+      TimeLine2(),
     ];
 
     ///

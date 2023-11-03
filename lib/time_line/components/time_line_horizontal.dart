@@ -21,7 +21,7 @@ class _TimeLineHorizontalState extends State<TimeLineHorizontal> {
           contentsBuilder: (context, index) => Padding(
             padding: const EdgeInsets.all(24.0),
             child: TweenAnimationBuilder(
-              duration: Duration(milliseconds: index * 300),
+              duration: Duration(milliseconds: index * 1000),
               tween: Tween<double>(begin: 1, end: 0),
               curve: Curves.linear,
               builder: (context, double value, child) {
@@ -44,3 +44,4 @@ class _TimeLineHorizontalState extends State<TimeLineHorizontal> {
     );
   }
 }
+// https://itsallwidgets.com/beautiful-timelines
