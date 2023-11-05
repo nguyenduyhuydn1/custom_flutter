@@ -1,6 +1,7 @@
 import 'package:custom_flutter/buttons/index.dart';
 import 'package:custom_flutter/circular_progess/circular_progress.dart';
 import 'package:custom_flutter/feature/index.dart';
+import 'package:custom_flutter/search_delegate/custom_search_delegate.dart';
 import 'package:custom_flutter/test.dart';
 import 'package:custom_flutter/test2.dart';
 import 'package:custom_flutter/time_line/index.dart';
@@ -85,6 +86,8 @@ class MainApp extends StatelessWidget {
       SwitchButton(),
       SwitchBtn2(),
       Tab2(),
+      Tabs1(),
+      Tabs2(),
     ];
 
     /////////////////////////// circular progess
@@ -97,6 +100,11 @@ class MainApp extends StatelessWidget {
       TimeLineHorizontal(),
       DelayUntilComplete(),
       TimeLine2(),
+    ];
+
+    /////////////////////////// search delegate
+    final searchDelegate = [
+      CustomSearchDelegate(),
     ];
 
     ///
@@ -144,12 +152,16 @@ class MainApp extends StatelessWidget {
                   listWidgets: timeLine,
                   title: "Time Line",
                 ),
+                _DropDownButton(
+                  listWidgets: searchDelegate,
+                  title: "search delegate",
+                ),
                 Builder(
                   builder: (context) => FilledButton(
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const Test2()),
+                        MaterialPageRoute(builder: (context) => const Test1()),
                       );
                     },
                     child: const Text("test page"),
@@ -160,7 +172,7 @@ class MainApp extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const Test()),
+                        MaterialPageRoute(builder: (context) => const Test2()),
                       );
                     },
                     child: const Text("test page2"),
