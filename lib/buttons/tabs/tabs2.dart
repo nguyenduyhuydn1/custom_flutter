@@ -27,6 +27,7 @@ class Tabs2 extends StatelessWidget {
               ),
             ),
             tabs: [
+              Tab(icon: Icon(Icons.search), text: "asdasd"),
               Text('My Country'),
               Text('Global'),
               Text('Global'),

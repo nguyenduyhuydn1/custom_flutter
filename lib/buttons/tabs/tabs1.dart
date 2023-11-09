@@ -18,7 +18,8 @@ class Tabs1 extends StatelessWidget {
               borderRadius: BorderRadius.circular(25.0),
             ),
             child: TabBar(
-              splashFactory: NoSplash.splashFactory,
+              splashBorderRadius: BorderRadius.circular(99),
+              // splashFactory: NoSplash.splashFactory,
               indicator: const BubbleTabIndicator(
                 tabBarIndicatorSize: TabBarIndicatorSize.tab,
                 indicatorHeight: 40.0,
@@ -30,9 +31,18 @@ class Tabs1 extends StatelessWidget {
               ),
               labelColor: Colors.black,
               unselectedLabelColor: Colors.white,
-              tabs: const <Widget>[
-                Text('My Country'),
-                Text('Global'),
+              tabs: const [
+                Tab(icon: Icon(Icons.search)),
+                SizedBox(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Center(child: Text('My Country')),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Center(child: Text('Global ')),
+                ),
                 Text('Global'),
                 Text('Global'),
               ],
