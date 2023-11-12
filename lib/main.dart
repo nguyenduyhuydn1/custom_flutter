@@ -1,4 +1,5 @@
 import 'package:custom_flutter/buttons/index.dart';
+import 'package:custom_flutter/chat/chat.dart';
 import 'package:custom_flutter/circular_progess/circular_progress.dart';
 import 'package:custom_flutter/feature/index.dart';
 import 'package:custom_flutter/search_delegate/custom_search_delegate.dart';
@@ -107,6 +108,11 @@ class MainApp extends StatelessWidget {
       CustomSearchDelegate(),
     ];
 
+    /////////////////////////// vhat
+    final chat = [
+      const Chat(),
+    ];
+
     ///
     return MaterialApp(
       // showPerformanceOverlay: true,
@@ -155,6 +161,10 @@ class MainApp extends StatelessWidget {
                 _DropDownButton(
                   listWidgets: searchDelegate,
                   title: "search delegate",
+                ),
+                _DropDownButton(
+                  listWidgets: chat,
+                  title: "chat",
                 ),
                 Builder(
                   builder: (context) => FilledButton(
