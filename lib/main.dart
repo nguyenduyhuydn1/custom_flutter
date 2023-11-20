@@ -49,6 +49,7 @@ class MainApp extends StatelessWidget {
       // PageViewBottomNavigationBar(),
       // TabBottonNavigationBar(),
       Bn1(),
+      Bnb2(),
     ];
 
     /////////////////////////// check

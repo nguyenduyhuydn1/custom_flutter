@@ -9,3 +9,4 @@ export './components/multiple_animation.dart';
 
 export './components/animation_scale.dart';
 export './components/bn1.dart';
+export './components/bnb2.dart';
