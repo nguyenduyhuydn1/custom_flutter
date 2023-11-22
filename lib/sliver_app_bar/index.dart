@@ -3,3 +3,4 @@ export 'components/tabbar_sliver_appbar.dart';
 export 'components/advanced_sliver_appbar.dart';
 
 export 'components/box_temp.dart';
+export './components/custom_appbar.dart';

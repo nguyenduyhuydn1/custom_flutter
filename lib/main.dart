@@ -30,6 +30,7 @@ class MainApp extends StatelessWidget {
       AdvancedSliverAppbar(),
       BasicSliverAppBar(),
       TabbarSliverAppbar(),
+      CustomAppbarHome(),
     ];
 
     const pageTransition = [
@@ -41,13 +42,13 @@ class MainApp extends StatelessWidget {
     ];
 
     const bottomNavigationBar = [
-      // AnimationBorderTopNavigation(),
-      // AnimationNavigation(),
-      // AnimationScale(),
-      // BasicBottomNavigationBar(),
-      // MultipleAnimation(),
-      // PageViewBottomNavigationBar(),
-      // TabBottonNavigationBar(),
+      AnimationBorderTopNavigation(),
+      AnimationNavigation(),
+      AnimationScale(),
+      BasicBottomNavigationBar(),
+      MultipleAnimation(),
+      PageViewBottomNavigationBar(),
+      TabBottonNavigationBar(),
       Bn1(),
       Bnb2(),
     ];
@@ -55,9 +56,9 @@ class MainApp extends StatelessWidget {
     /////////////////////////// check
     const listAnimation = [
       AnimationSlide(),
-      // Card1(),
-      // ShowModalBottomSheet(),
-      // CustomTextFormField(),
+      Card1(),
+      ShowModalBottomSheet(),
+      CustomTextFormField(),
     ];
 
     ///
@@ -118,6 +119,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       // showPerformanceOverlay: true,
       debugShowCheckedModeBanner: false,
+
       home: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
