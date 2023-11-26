@@ -1,4 +1,5 @@
 import 'dart:async';
+// import 'package:flutter/material.dart';
 
 class Debouncer {
   final Duration delay;
@@ -6,8 +7,15 @@ class Debouncer {
 
   Debouncer({this.delay = const Duration(milliseconds: 500)});
 
-  call(Function action) {
-    _timer?.cancel();
+  void run(Function action) {
+    if (_timer?.isActive ?? false) _timer?.cancel();
     _timer = Timer(delay, () => action());
   }
+
+  void dispose() => _timer?.cancel();
+
+  // call(Function action) {
+  //   _timer?.cancel();
+  //   _timer = Timer(delay, () => action());
+  // }
 }

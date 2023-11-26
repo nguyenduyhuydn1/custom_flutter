@@ -51,6 +51,7 @@ class _ScrollVerticalScaleState extends State<ScrollVerticalScale> {
   @override
   void initState() {
     scrollController = ScrollController();
+
     scrollController.addListener(() {
       // dataM3.addAll(List.from(dataM3.sublist(0, 3)));
       setState(() {});

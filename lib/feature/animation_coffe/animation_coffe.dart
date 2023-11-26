@@ -40,6 +40,19 @@ class _AnimationCoffeState extends State<AnimationCoffe> {
 
   @override
   void initState() {
+    // auto scroll
+    // _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
+    //   if (_currentPage < intros.length - 1) {
+    //     _currentPage++;
+    //   } else {
+    //     _currentPage = 0;
+    //   }
+    //   _pageController.animateToPage(
+    //     _currentPage,
+    //     duration: const Duration(milliseconds: 350),
+    //     curve: Curves.easeIn,
+    //   );
+
     _slidePageController = PageController(initialPage: _currentIndex);
     _titlePageController = PageController(initialPage: _currentIndex);
 
